@@ -85,7 +85,7 @@ const Header = () => {
             </>
           ) : (
             <div className="user-menu">
-              <span className="user-name">Hi, {userName}</span>
+              <span className="user-name"> {userName}</span>
               <button className="btn-outline" onClick={handleLogout}>Logout</button>
             </div>
           )}

@@ -1,7 +1,8 @@
 .footer {
- background: #0f1e2e;
-  color: #fff;
-  padding: 50px 20px 20px;
+    background: linear-gradient(135deg, #0f2027, #1d1e34, #1f1f3c);
+    color: #fff;
+    padding: 60px 20px 20px;
+    animation: fadeUp 1s ease-in;
 }
 
 .footer-container {
@@ -9,17 +10,33 @@
   margin: auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
+  gap: 40px;
 }
 
-.footer-col h3,
+.footer-col h2 {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
 .footer-col h4 {
-  margin-bottom: 15px;
+  font-size: 18px;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.footer-col h4::after {
+  content: "";
+  width: 40px;
+  height: 2px;
+  background: #00d4ff;
+  display: block;
+  margin-top: 6px;
 }
 
 .footer-col p {
   font-size: 14px;
-  color: #ddd;
+  line-height: 1.6;
+  opacity: 0.9;
 }
 
 .footer-col ul {
@@ -28,25 +45,55 @@
 }
 
 .footer-col ul li {
-  font-size: 14px;
   margin-bottom: 10px;
+  font-size: 14px;
   cursor: pointer;
-  color: #ddd;
-  transition: 0.3s;
+  transition: all 0.3s ease;
 }
 
 .footer-col ul li:hover {
-  color: #f4c430;
+  color: #00d4ff;
+  transform: translateX(6px);
+}
+
+.brand {
+  animation: float 3s ease-in-out infinite;
 }
 
 .footer-bottom {
   text-align: center;
-  margin-top: 30px;
+  margin-top: 40px;
   padding-top: 15px;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  font-size: 14px;
-  color: #ccc;
+  font-size: 13px;
+  opacity: 0.8;
 }
+
+/* 🔥 Animations */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* 📱 Responsive */
 @media (max-width: 900px) {
   .footer-container {
     grid-template-columns: repeat(2, 1fr);
@@ -57,5 +104,13 @@
   .footer-container {
     grid-template-columns: 1fr;
     text-align: center;
+  }
+
+  .footer-col h4::after {
+    margin: 6px auto;
+  }
+
+  .footer-col ul li:hover {
+    transform: none;
   }
 }

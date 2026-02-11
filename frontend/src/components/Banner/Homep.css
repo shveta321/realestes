@@ -1,95 +1,93 @@
-/* ===== GLOBAL ===== */
 .home {
   width: 100%;
-  font-family: "Segoe UI", Arial, sans-serif;
 }
 
-/* ===== HERO ===== */
+/* HERO */
 .hero {
   position: relative;
-  height: 87vh;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
+/* Banner Image */
 .hero-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
+/* Overlay */
 .hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(15, 23, 42, 0.7);
+  background: rgba(0, 0, 0, 0.55);
 }
 
+/* Content */
 .hero-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  text-align: center;
-  color: #fff;
-  padding: 30px;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(6px);
-  border-radius: 14px;
+    position: absolute;
+    top: 29%;
+    left: 36%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    text-align: center;
+    z-index: 2;
+    max-width: 800px;
+    padding: 5px;
+    background: #f5f5dc38;
+    border-radius: 5px;
 }
-
 .hero-content h1 {
-  font-size: 36px;
-  margin-bottom: 10px;
+  font-size: 38px;
+  font-weight: 700;
 }
 
 .hero-content p {
-  font-size: 16px;
-  margin-bottom: 20px;
-  color: #e5e7eb;
+  margin-top: 12px;
+  font-size: 18px;
+  opacity: 0.9;
 }
 
 .hero-btn {
-  padding: 12px 30px;
-  background: #2563eb;
-  color: #fff;
+  margin-top: 25px;
+  padding: 14px 36px;
+  background: linear-gradient(135deg, #00d4ff, #007bff);
   border: none;
   border-radius: 30px;
+  color: white;
+  font-size: 16px;
   cursor: pointer;
 }
 
-.hero-btn:hover {
-  background: #1e40af;
-}
-
-/* ===== ABOUT ===== */
-.about {
-  padding: 60px 10%;
-  text-align: center;
-  background: #f8fafc;
-}
-
-.about h2 {
-  font-size: 30px;
-  margin-bottom: 12px;
-}
-
-.about p {
-  max-width: 800px;
-  margin: auto;
-  font-size: 15px;
-  color: #475569;
-}
-
-/* ===== RESPONSIVE ===== */
+/* Responsive */
 @media (max-width: 768px) {
-  .hero {
-    height: 65vh;
-  }
-
   .hero-content h1 {
-    font-size: 28px;
+    font-size: 34px;
+  }
+  .hero-content {
+    position: absolute;
+    top: 41%;
+    left: 16%;
+    right: 11%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    text-align: center;
+    z-index: 2;
+    max-width: 803px;
+    padding: 18px;
+    background: #f5f5dc38;
+    border-radius: 5px;
+}
+}
+
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 26px;
   }
 }
+
 
 /* Looking for buyers for Plots/land */
 
@@ -208,83 +206,105 @@
 }
 
 
-/* Choose type of advertiser */
-
+/* Chooseadvertiser */
 .advertiser-wrapper {
-  background: #fff6e9;
-  padding: 40px;
+  width:90%;
   display: flex;
   justify-content: center;
+  padding: 40px 10px;
 }
-
 .advertiser-card {
-  background: #fff;
-  display: flex;
-  width: 700px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+    display: flex;
+    align-items: center;
+    width: 95%;
+    max-width: 909px;
+    background: linear-gradient(135deg, #ffffff, #f3f9ff);
+    border-radius: 14px;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    animation: fadeInUp 0.8s ease;
+    transition: 0.3s ease;
+    height: 344px;
 }
 
+.advertiser-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 12px 30px rgba(0,0,0,0.12);
+}
+
+/* IMAGE */
 .left-box {
-  width: 30%;
-  background: #a5dbd4;
-  padding: 30px;
-
+    width: 70%;
+    background: #e8f2ff;
+     height: 342px;
+}
+.invest-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.left-box h3 {
-  margin: 0;
-  font-size: 22px;
-}
-
-.left-box p {
-  margin-top: 8px;
-  color: #555;
-}
-
-/* Right box */
+/* CONTENT */
 .right-box {
-  width: 70%;
-  padding: 30px;
+  width: 35%;
+  padding: 28px 24px;
 }
 
 .right-box h2 {
-  margin: 0;
-  font-size: 22px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #0a3d91;
 }
 
 .sub-text {
-  color: #666;
-  margin-bottom: 20px;
+  margin: 10px 0 20px;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.4;
 }
 
-/* Options */
-.option {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px;
-  border: 1px solid #eee;
+/* BUTTON */
+.choose-btn {
+  padding: 10px 22px;
+  background: linear-gradient(135deg, #007bff, #0056d1);
+  color: white;
   border-radius: 8px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  transition: 0.3s;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  transition: 0.3s ease;
 }
 
-.option:hover {
-  background: #f7f7f7;
+.choose-btn:hover {
+  opacity: 0.92;
+  transform: translateY(-2px);
 }
 
-.option-text span {
-  display: block;
-  font-size: 13px;
-  color: #777;
+/* Animation */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.arrow {
-  font-size: 20px;
+/* RESPONSIVE */
+@media (max-width: 700px) {
+  .advertiser-card {
+    flex-direction: column;
+  }
+
+  .left-box,
+  .right-box {
+    width: 100%;
+  }
+
+  .right-box {
+    text-align: center;
+  }
 }
+
+/*****advisorysrvise**********************/
+
 
 .advisory-hero {
   background: linear-gradient(135deg, #0b3c5d, #1e81b0);
@@ -385,7 +405,7 @@
     grid-template-columns: 1fr;
   }
 }
-
+/************/
 /****************** Legaladvitfunding */
 
 .legaladvitfunding-section {
@@ -583,5 +603,189 @@
   .plot-table th,
   .plot-table td {
     font-size: 13px;
+  }
+}
+  /* Buyingcom */
+  .buying-section {
+  padding: 60px 20px;
+  background: #f7f8fc;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #1f1f1f;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding-bottom: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.card-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 14px 14px 0 0;
+}
+
+.card h3 {
+  font-size: 18px;
+  margin: 16px 0 10px;
+  color: #222;
+}
+
+.card p {
+  font-size: 14px;
+  color: #666;
+  padding: 0 12px;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-size: 14px;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.btn-outline {
+  border: 2px solid #1d2671;
+  color: #1d2671;
+}
+
+.btn-outline:hover {
+  background: #1d2671;
+  color: #fff;
+}
+
+/*********** Freeuplod  */
+/* Wrapper */
+.free-wrapper {
+    display: flex;
+    grid-template-columns: 1fr 1fr;
+    gap: 0px;
+    /* padding: 50px; */
+    background: linear-gradient(135deg, #f5fff8, #eaf6ff);
+    align-items: center;
+    padding-left: 134px;
+    padding-top: 38px;
+}
+
+/* IMAGE CARD */
+.free-imcard {
+    /* background: #ffffff; */
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.4s ease;
+}
+
+.free-imcard:hover {
+  transform: translateY(-8px);
+}
+
+.free-imcard img {
+    max-width: 100%;
+    /* height: auto; */
+    /* border-radius: 16px; */
+    height: 403px;
+}
+/* TEXT CARD */
+.free-textcards {
+    background: #ffffff;
+    /* border-radius: 20px; */
+    padding: 40px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+    width: 389px;
+}
+.free-textcards h1 {
+  font-size: 34px;
+  font-weight: 700;
+  color: #0a1f44;
+  margin-bottom: 12px;
+}
+
+.free-textcards p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+/* MAIN BUTTON */
+.btn-main {
+  display: inline-block;
+  background: #0078db;
+  color: #fff;
+  padding: 14px 30px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 25px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-main:hover {
+  background: #005bb5;
+  transform: scale(1.05);
+}
+
+/* LOGIN / SIGNUP */
+.auth-section {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-outline {
+  border: 2px solid #0078db;
+  color: #0078db;
+  padding: 10px 22px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  background: #0078db;
+  color: white;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+@media (max-width: 900px) {
+  .free-wrapper {
+    grid-template-columns: 1fr;
+    padding: 25px;
+    text-align: center;
+  }
+
+  .auth-section {
+    justify-content: center;
+  }
+
+  .free-textcards h1 {
+    font-size: 26px;
   }
 }

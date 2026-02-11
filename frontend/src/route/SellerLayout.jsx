@@ -1,15 +1,17 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { FiHome, FiFileText, FiMail, FiShoppingBag, FiLogOut } from "react-icons/fi";
+import { FiHome, FiMail, FiShoppingBag, FiLogOut } from "react-icons/fi";
 import "../App.css";
 
 export default function SellerLayout() {
   const location = useLocation();
 
   const menu = [
-    { label: "Dashboard", icon: <FiHome />, path: "/seller/dashboard" },
-    { label: "My Properties", icon: <FiShoppingBag />, path: "/seller/properties" },
-    { label: "Addproperty", icon: <FiFileText />, path: "/seller/Addproperty" },
-    { label: "Inquiries", icon: <FiMail />, path: "/seller/inquiries" },
+    { label: "Dashboard", icon: <FiHome />, path: "/seller/SellerDashboard" },
+     { label: "My Properties", icon: <FiShoppingBag />, path: "/seller/properties" },
+    // { label: "Addproperty", icon: <FiFileText />, path: "/seller/Addproperty" },
+    // { label: "Inquiries", icon: <FiMail />, path: "/seller/inquiries" },
+        { label: "PropertyForm", icon: <FiMail />, path: "/seller/propertyForm" },
+
   ];
 
   const logout = () => {
@@ -47,7 +49,7 @@ export default function SellerLayout() {
         <nav className="top-nav">
           <span className="title">Welcome Seller</span>
           <div className="profile">
-            <img src="https://via.placeholder.com/40" alt="profile" />
+<img src="/default-profile.png" alt="profile" />
           </div>
         </nav>
 

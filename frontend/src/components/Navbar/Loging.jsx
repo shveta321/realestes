@@ -20,7 +20,7 @@ const Login = () => {
       });
 
       const data = await res.json();
-
+console.log(data)
       if (!res.ok) {
         alert(data.msg);
         return;
@@ -30,6 +30,8 @@ const Login = () => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("role", data.role);
       localStorage.setItem("name", data.name);
+console.log("Token =>", localStorage.getItem("token"));
+console.log("Role =>", localStorage.getItem("role"));
 
 
       // --- Navigate By Role ---

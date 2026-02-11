@@ -1,18 +1,21 @@
 import React from "react";
-import "../Footer/Footerpag.css";
+import "./Footerpag.css";
 
 const Footerpage = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        <div className="footer-col">
-          <h3>RealEstate</h3>
+
+        {/* Brand */}
+        <div className="footer-col brand">
+          <h2>🏠 RealEstate</h2>
           <p>
-            Find your dream property with ease. Buy, sell & rent properties
-            across India.
+            Find your dream property with ease. Buy, sell & rent verified
+            properties across India.
           </p>
         </div>
 
+        {/* Quick Links */}
         <div className="footer-col">
           <h4>Quick Links</h4>
           <ul>
@@ -37,8 +40,8 @@ const Footerpage = () => {
         {/* Contact */}
         <div className="footer-col">
           <h4>Contact</h4>
-          <p>Email: support@realestate.com</p>
-          <p>Phone: +91 98765 43210</p>
+          <p>📧 support@realestate.com</p>
+          <p>📞 +91 98765 43210</p>
         </div>
       </div>
 

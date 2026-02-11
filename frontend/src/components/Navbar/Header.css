@@ -37,10 +37,10 @@
 
 /* Desktop Navigation */
 .navba {
-  display: flex;
-  gap: 28px;
+    display: flex;
+    gap: 28px;
+    list-style: none;
 }
-
 .navba li a,
 .navba li span {
   color: white;
@@ -69,6 +69,7 @@
   padding: 6px 0;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   z-index: 999;
+    list-style: none;
 }
 
 .dropdown-menu li a {
@@ -91,13 +92,24 @@
   border-radius: 4px;
   margin-left: 10px;
   font-size: 14px;
+    text-decoration: none;
+    font-weight: bold;
 }
-
-.btn-primary {
+.log-btss {
+    text-decoration: none;
+    color: #0ca9a9;
+    font-weight: bold;
+    font-size: 17px;
+    margin-left: 10px;
+}
+.switchup {
+    color: #a9a8a6;
+}
+/* .btn-primary {
   background: white;
   color: #001b47 !important;
   font-weight: 600;
-}
+} */
 
 /* Hamburger (Mobile) */
 .hamburger {

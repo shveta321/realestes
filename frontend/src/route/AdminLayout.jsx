@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { FiUsers, FiHome, FiFileText, FiMail, FiLogOut } from "react-icons/fi";
+import { FiUsers, FiHome,  FiMail, FiLogOut } from "react-icons/fi";
 import "../App.css";
 export default function AdminLayout() {
   const location = useLocation();
@@ -7,8 +7,11 @@ export default function AdminLayout() {
   const menu = [
     { label: "Dashboard", icon: <FiHome />, path: "/admin/dashboard" },
     { label: "Users", icon: <FiUsers />, path: "/admin/users" },
-    { label: "Properties", icon: <FiFileText />, path: "/admin/properties" },
-    { label: "Inquiries", icon: <FiMail />, path: "/admin/inquiries" },
+    // { label: "Properties", icon: <FiFileText />, path: "/admin/properties" },
+    { label: "Inquiries", icon: <FiMail />, path: "/admin/Inquiries" },
+    { label: "Investors", icon: <FiMail />, path: "/admin/Investorprop" },
+    { label: "Admproperties", icon: <FiMail />, path: "/admin/Admproperties" },
+
   ];
 
   const logout = () => {
@@ -18,7 +21,7 @@ export default function AdminLayout() {
 
   return (
     <div className="admin-container">
- 
+
       <aside className="sidebar">
         <h2 className="sidebar-title">Admin Panel</h2>
         <ul className="menu-list">
@@ -47,7 +50,7 @@ export default function AdminLayout() {
         <nav className="top-nav">
           <span className="title">Welcome Admin</span>
           <div className="profile">
-            <img src="https://via.placeholder.com/" alt="profile" />
+            {/* <img src="https://via.placeholder.com/" alt="profile" /> */}
           </div>
         </nav>
 
