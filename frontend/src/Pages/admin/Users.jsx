@@ -14,8 +14,9 @@ export default function Users() {
   const fetchUsers = async () => {
     const token = localStorage.getItem("token");
 
-    const res = await fetch("http://localhost:5000/admin/userss", {
+    const res = await fetch("https://synamc.com/admin/userss", {
       headers: { Authorization: `Bearer ${token}` }
+      
     });
 
     const data = await res.json();
@@ -39,7 +40,7 @@ const handleDelete = async (row) => {
     if (result.isConfirmed) {
       const token = localStorage.getItem("token");
 
-      const res = await fetch(`http://localhost:5000/admin/userss/${row.id}`, {
+      const res = await fetch(`https://synamc.com/admin/userss/${row.id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -61,7 +62,7 @@ const handleDelete = async (row) => {
   const updateUser = async () => {
     const token = localStorage.getItem("token");
 
-    const res = await fetch(`http://localhost:5000/admin/userss/${editUser.id}`, {
+    const res = await fetch(`https://synamc.com/admin/userss/${editUser.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -92,6 +93,7 @@ const handleDelete = async (row) => {
 
   return (
     <>
+    
       <DataTable
         title="Users"
         columns={columns}

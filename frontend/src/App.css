@@ -136,3 +136,53 @@
   height: 35px;
   border-radius: 50%;
 }
+
+/* Light Mode (default) */
+body {
+  background: #f5f6fa;
+  color: #222;
+}
+
+/* Dark Mode */
+body.dark {
+  background: #121212;
+  color: #fff;
+}
+
+/* Sidebar */
+body.dark .sidebar {
+  background: #1e1e1e;
+}
+table.dark {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgb(14, 13, 13);
+   
+}
+/* Menu items */
+body.dark .menu-item a {
+  color: #ddd;
+}
+body.dark .menu-item.active a {
+  background: #333;
+}
+/* Top Navbar */
+body.dark .top-nav {
+  background: #1f1f1f;
+}
+/* Content */
+body.dark .content-body {
+  background: #181818;
+  color: #000;
+}
+body.dark .content-body h2 {
+  color: #fffcfc;
+}
+/* Toggle button */
+.theme-toggle {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: inherit;
+}

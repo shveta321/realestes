@@ -1,13 +1,13 @@
 
 const express = require("express");
 const bcrypt = require("bcrypt");
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const mysql = require("mysql2/promise");
 const multer = require("multer");
 const path = require("path");
 const fs = require('fs');
-
 
 
 const app = express();
@@ -28,28 +28,11 @@ async function testDB() {
     console.log("✅ MySQL Connected!");
     connection.release();
   } catch (err) {
-    console.log("❌ MySQL Connection Failed:", err);
+    console.log(" MySQL Connection Failed:", err);
   }
 }
 
 testDB();
-// const db = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'root',
-//   password: '',       // default WAMP MySQL password
-//   database:  "synx_platform",
-//   port: 3306           // default MySQL port
-// });
-
-// db.connect(err => {
-//   if (err) {
-//     console.error('❌ MySQL connection error:', err);
-//     return;
-//   }
-//   console.log('✅ Connected to MySQL (WAMP)');
-// });
-
-
 // Storage
 if (!fs.existsSync("./uploads")) {
   fs.mkdirSync("./uploads");
@@ -71,8 +54,6 @@ app.use(cors());
 app.use(express.json());
 // static uploads folder (important)
 app.use("/uploads", express.static("uploads"));
-
-
 // Auth Middleware
 function auth(req, res, next) {
   const token = req.headers.authorization?.split(" ")[1];
@@ -131,7 +112,6 @@ app.post("/loging", async (req, res) => {
 
     return res.json({ msg: "Loging success", token, role: user[0].role, name: user[0].name });
 
-
   } catch (err) {
     console.log(err);
     return res.status(500).json({ msg: "Server error" });
@@ -143,10 +123,10 @@ app.get("/admin-check", auth, (req, res) => {
   return res.json({ msg: "You are authenticated", user: req.user });
 });
 // GET ALL USERS
-app.get("/admin/userss", auth, async (req, res) => {
+app.get("/admin/users", auth, async (req, res) => {
   try {
     const [users] = await db.execute(
-      "SELECT id, name, email, role,  created_at FROM userss ORDER BY id DESC"
+      "SELECT id, name, email, role,  created_at FROM users ORDER BY id DESC"
     );
 
     return res.json(users);
@@ -157,23 +137,23 @@ app.get("/admin/userss", auth, async (req, res) => {
   }
 });
 
-app.delete("/admin/userss/:id", auth, async (req, res) => {
+app.delete("/admin/users/:id", auth, async (req, res) => {
   const { id } = req.params;
   try {
-    await db.execute("DELETE FROM userss WHERE id = ?", [id]);
+    await db.execute("DELETE FROM users WHERE id = ?", [id]);
     return res.json({ msg: "User deleted successfully" });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ msg: "Server error" });
   }
 });
-app.put("/admin/userss/:id", auth, async (req, res) => {
+app.put("/admin/users/:id", auth, async (req, res) => {
   const { id } = req.params;
   const { name, email, role } = req.body;
 
   try {
     await db.execute(
-      "UPDATE userss SET name = ?, email = ?, role = ? WHERE id = ?",
+      "UPDATE users SET name = ?, email = ?, role = ? WHERE id = ?",
       [name, email, role, id]
     );
     return res.json({ msg: "User updated successfully" });
@@ -183,37 +163,6 @@ app.put("/admin/userss/:id", auth, async (req, res) => {
   }
 });
 
-
-//propertyadd
-// app.post("/property/add", auth, upload.fields([
-//   { name: "image", maxCount: 1 },
-//   { name: "documents", maxCount: 10 }
-// ]), async (req, res) => {
-
-//   try {
-//     const { title, type, subtype, description, estimated_price, location } = req.body;
-
-//     const seller_id = req.user.id;
-//     const image = req.files.image ? req.files.image[0].filename : null;
-//     const documents = req.files.documents ? req.files.documents.map(f=>f.filename) : [];
-
-//     const [result] = await db.execute(
-//       `INSERT INTO propertie (seller_id,title,type,subtype,description,estimated_price,location,image,status)
-//        VALUES (?,?,?,?,?,?,?,?, 'pending')`,
-//       [seller_id, title, type, subtype, description, estimated_price, location, image]
-//     );
-
-//     return res.status(200).json({
-//       msg: "Property Added Successfully",
-//       id: result.insertId,
-//       docs: documents
-//     });
-
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(500).json({ msg: "Server Error" });
-//   }
-// });
 app.post(
   "/property/add",
   auth,
@@ -278,118 +227,6 @@ app.get("/property/my", auth, async (req, res) => {
     return res.status(500).json({ msg: "Server error" });
   }
 });
-
-//properties
-// app.get("/admin/properties", auth, async (req, res) => {
-//   try {
-//     const user = req.user;
-
-//     let query = `
-//       SELECT 
-//         p.id, 
-//         p.title, 
-//         p.type,
-//         p.subtype, 
-//         p.description,
-//         p.location, 
-//         p.estimated_price, 
-//         p.status,
-//         p.images,    
-//         u.name AS seller_name, 
-//         u.email AS seller_email
-//       FROM propertie p
-//       JOIN userss u ON p.seller_id = u.id
-//     `;
-
-//     const params = [];
-
-//     if (user.role === "seller") {
-//       query += ` WHERE p.seller_id = ?`;
-//       params.push(user.id);
-//     }
-
-//     query += ` ORDER BY p.id DESC`;
-
-//     const [rows] = await db.execute(query, params);
-
-//     // 🔥 Parse images JSON
-//     const data = rows.map(p => ({
-//       ...p,
-//       images: p.images ? JSON.parse(p.images) : []  // parse JSON array or empty
-//     }));
-
-//     res.json(data);
-
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ msg: "Server error" });
-//   }
-// });
-
-
-// app.patch("/admin/property/approve/:id", auth, async (req, res) => {
-//   const { id } = req.params;
-//   await db.execute(`UPDATE propertie SET status='approved' WHERE id=?`, [id]);
-//   res.json({ msg: "Property Approved" });
-// });
-// //"https/localhost:5000/admin/property/approve"
-
-// app.patch("/admin/property/reject/:id", auth, async (req, res) => {
-//   const { id } = req.params;
-//   await db.execute(`UPDATE propertie SET status='rejected' WHERE id=?`, [id]);
-//   res.json({ msg: "Property Rejected" });
-// });
-
-// app.delete("/admin/property/delete/:id", auth, async (req, res) => {
-//   const { id } = req.params;
-//   await db.execute(`DELETE FROM propertie WHERE id=?`, [id]);
-//   res.json({ msg: "Property Deleted" });
-// });
-
-// app.get("/buyer/properties", async (req, res) => {
-//   try {
-//     const [rows] = await db.execute(`
-//       SELECT 
-//         id,
-//         title,
-//         location,
-//         subtype,
-//         images,
-//         estimated_price,
-//         description,
-//         type
-//       FROM propertie
-//       WHERE status = 'approved'
-//       ORDER BY id DESC
-//     `);
-
-//     const data = rows.map(item => {
-//       let imgs = [];
-
-//       if (item.images) {
-//         try {
-//           // if stored as JSON array
-//           imgs = JSON.parse(item.images);
-//         } catch (e) {
-//           // if stored as comma separated string
-//           imgs = item.images.split(",");
-//         }
-//       }
-
-//       return {
-//         ...item,
-//         images: imgs.map(img => `http://localhost:5000/uploads/${img}`)
-//       };
-//     });
-
-//     res.json(data);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ msg: "Server Error" });
-//   }
-// });
-
-//investor###########
 app.post("/investor/submit", async (req, res) => {
   try {
     const { name, address, email, phone, requirement, ticket_size } = req.body;
@@ -504,46 +341,35 @@ app.get("/admin/inquiries", auth, async (req, res) => {
   }
 });
 
-app.get("/admin/dashboard-stats", auth, async (req, res) => {
+/* ================= ADMIN DASHBOARD ================= */
+
+app.get("/api/admin/dashboard-stats", auth, async (req, res) => {
   try {
-    // Optional but recommended
-    if (req.user.role !== "admin") {
+
+    if (req.user.role !== "admin")
       return res.status(403).json({ message: "Access denied" });
-    }
 
-    /* 🔝 Top Sellers (by total properties) */
     const [topSellers] = await db.execute(`
-  SELECT 
-    u.id,
-    u.name,
-    COUNT(p.id) AS total_properties
-  FROM userss u
-  LEFT JOIN properties p ON p.seller_id = u.id
-  WHERE u.role = 'seller'
-  GROUP BY u.id
-  ORDER BY total_properties DESC
-`);
+      SELECT u.id, u.name, COUNT(p.id) AS total_properties
+      FROM userss u
+      LEFT JOIN properties p ON p.seller_id = u.id
+      WHERE u.role='seller'
+      GROUP BY u.id
+      ORDER BY total_properties DESC
+    `);
 
-
-    /* 🏠 Property Type Distribution */
     const [propertyTypes] = await db.execute(`
-      SELECT 
-        property_type AS type,
-        COUNT(*) AS count
+      SELECT property_type AS type, COUNT(*) AS count
       FROM properties
       GROUP BY property_type
     `);
 
-    /* ❤️ Buyer Interest (Total Inquiries) */
     const [buyerInterest] = await db.execute(`
       SELECT COUNT(*) AS total FROM buyerleads
     `);
 
-    /* 📈 Monthly Growth (Buyer Leads) */
     const [monthlyLeads] = await db.execute(`
-      SELECT 
-        MONTH(created_at) AS month,
-        COUNT(*) AS count
+      SELECT MONTH(created_at) AS month, COUNT(*) AS count
       FROM buyerleads
       GROUP BY MONTH(created_at)
       ORDER BY month
@@ -557,69 +383,62 @@ app.get("/admin/dashboard-stats", auth, async (req, res) => {
     });
 
   } catch (err) {
-    console.error("🔥 Dashboard Error:", err);
-    res.status(500).json({ msg: "Dashboard stats failed" });
-  }
-});
-app.get("/seller/dashboard-stats", auth, async (req, res) => {
-  try {
-    // ✅ Only Seller Access
-    if (req.user.role !== "seller") {
-      return res.status(403).json({ message: "Access denied" });
-    }
-
-    const sellerId = req.user.id;
-
-    /* 🏠 Total Properties of Seller */
-    const [totalProperties] = await db.execute(`
-      SELECT COUNT(*) AS total 
-      FROM properties 
-      WHERE seller_id = ?
-    `, [sellerId]);
-
-    /* ❤️ Total Inquiries on Seller Properties */
-    const [totalInquiries] = await db.execute(`
-      SELECT COUNT(*) AS total
-      FROM buyerleads bl
-      JOIN properties p ON bl.property_id = p.id
-      WHERE p.seller_id = ?
-    `, [sellerId]);
-
-    /* 🏘️ Property Type Distribution */
-    const [propertyTypes] = await db.execute(`
-      SELECT 
-        property_type AS type,
-        COUNT(*) AS count
-      FROM properties
-      WHERE seller_id = ?
-      GROUP BY property_type
-    `, [sellerId]);
-
-    /* 📈 Monthly Inquiries */
-    const [monthlyInquiries] = await db.execute(`
-      SELECT 
-        MONTH(bl.created_at) AS month,
-        COUNT(*) AS count
-      FROM buyerleads bl
-      JOIN properties p ON bl.property_id = p.id
-      WHERE p.seller_id = ?
-      GROUP BY MONTH(bl.created_at)
-      ORDER BY month
-    `, [sellerId]);
-
-    res.json({
-      totalProperties: totalProperties[0].total,
-      totalInquiries: totalInquiries[0].total,
-      propertyTypes,
-      monthlyInquiries
-    });
-
-  } catch (err) {
-    console.error("🔥 Seller Dashboard Error:", err);
-    res.status(500).json({ message: "Seller dashboard failed" });
+    console.error("Dashboard Error:", err);
+    res.status(500).json({ message: "Dashboard failed" });
   }
 });
 
+
+// /* ================= SELLER DASHBOARD ================= */
+
+// app.get("/seller/dashboard-stats", auth, async (req, res) => {
+//   try {
+
+//     if (req.user.role !== "seller")
+//       return res.status(403).json({ message: "Access denied" });
+
+//     const sellerId = req.user.id;
+
+//     const [totalProperties] = await db.execute(
+//       "SELECT COUNT(*) AS total FROM properties WHERE seller_id=?",
+//       [sellerId]
+//     );
+
+//     const [totalInquiries] = await db.execute(`
+//       SELECT COUNT(*) AS total
+//       FROM buyerleads bl
+//       JOIN properties p ON bl.property_id=p.id
+//       WHERE p.seller_id=?
+//     `,[sellerId]);
+
+//     const [propertyTypes] = await db.execute(`
+//       SELECT property_type AS type, COUNT(*) AS count
+//       FROM properties
+//       WHERE seller_id=?
+//       GROUP BY property_type
+//     `,[sellerId]);
+
+//     const [monthlyInquiries] = await db.execute(`
+//       SELECT MONTH(bl.created_at) AS month, COUNT(*) AS count
+//       FROM buyerleads bl
+//       JOIN properties p ON bl.property_id=p.id
+//       WHERE p.seller_id=?
+//       GROUP BY MONTH(bl.created_at)
+//       ORDER BY month
+//     `,[sellerId]);
+
+//     res.json({
+//       totalProperties: totalProperties[0].total,
+//       totalInquiries: totalInquiries[0].total,
+//       propertyTypes,
+//       monthlyInquiries
+//     });
+
+//   } catch (err) {
+//     console.error("Seller Dashboard Error:", err);
+//     res.status(500).json({ message: "Seller dashboard failed" });
+//   }
+// });
 
 // ===== POST PROPERTY (TOKEN PROTECTED) =====
 app.post(
@@ -857,9 +676,6 @@ app.get("/api/properties", async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
-
-
-// ADMIN - GET ALL PROPERTIES
 // ADMIN - GET ALL PROPERTIES WITH SELLER INFO
 app.get("/admin/properties", auth, async (req, res) => {
   try {
@@ -913,9 +729,6 @@ app.get("/admin/properties", auth, async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
-
-
-
 app.delete("/admin/properties/:id", auth, async (req, res) => {
   try {
     if (req.user.role !== "admin") {
@@ -1114,9 +927,6 @@ app.get("/api/properties/filter", async (req, res) => {
       sql += " AND bhk = ?";
       values.push(bhk);
     }
-
-
-
     if (city) {
       sql += " AND city LIKE ?";
       values.push(`%${city}%`);
@@ -1251,8 +1061,6 @@ app.get("/seller/properties", auth, async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
-
 
 // Server
 const PORT = 5000;

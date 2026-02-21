@@ -44,7 +44,7 @@ const AddProperty = () => {
     });
 
     try {
-      const res = await fetch("http://localhost:5000/property/add", {
+      const res = await fetch("https://synamc.com/property/add", {
         method: "POST",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
@@ -204,7 +204,7 @@ export default AddProperty;
 //    payload.append("images", form.image);
 // }
 
-// fetch("http://localhost:5000/property/add", {
+// fetch("https://synamc.com/property/add", {
 //   method: "POST",
 //   headers: {
 //     Authorization: "Bearer " + localStorage.getItem("token")

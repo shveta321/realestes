@@ -31,7 +31,7 @@ const Contact = () => {
     console.log("FORM SUBMITTED: ", formData);
 
     // === backend ke liye ===
-    // fetch("http://localhost:5000/contact", {
+    // fetch("https://synamc.com/contact", {
     //   method: "POST",
     //   headers: { "Content-Type": "application/json" },
     //   body: JSON.stringify(formData),

@@ -5,7 +5,7 @@ export default function MonthlyGrowthChart() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/admin/stats/monthly-growth")
+    fetch("https://synamc.com/api/admin/stats/monthly-growth")
       .then(res => res.json())
       .then(setData);
   }, []);

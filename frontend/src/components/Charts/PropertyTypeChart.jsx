@@ -5,7 +5,7 @@ export default function PropertyTypeChart() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/admin/stats/property-types")
+    fetch("https://synamc.com/api/admin/stats/property-types")
       .then(res => res.json())
       .then(setData);
   }, []);

@@ -10,52 +10,59 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await fetch("http://localhost:5000/loging", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+  console.log("Login function called"); // ✅ check function call
 
-      const data = await res.json();
-console.log(data)
-      if (!res.ok) {
-        alert(data.msg);
-        return;
-      }
+  try {
+    console.log("Sending request to backend...");
 
-      // --- Store Auth Info ---
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("role", data.role);
-      localStorage.setItem("name", data.name);
-console.log("Token =>", localStorage.getItem("token"));
-console.log("Role =>", localStorage.getItem("role"));
+    const res = await fetch("http://synamc.com:5000/api/loging", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
+    console.log("Response received from server:", res);
 
-      // --- Navigate By Role ---
-      switch (data.role) {
-        case "admin":
-          navigate("/admin/dashboard");
-          break;
-        case "seller":
-          navigate("/seller/dashboard");
-          break;
-        case "buyer":
-          navigate("/");
-          break;
-        default:
-          navigate("/");
-      }
+    const data = await res.json();
+    console.log("Parsed JSON data:", data);
 
-      alert("Login Successful!");
-
-    } catch (error) {
-      console.log(error);
-      alert("Server error, try again");
+    if (!res.ok) {
+      console.warn("Login failed:", data.message || data.msg);
+      alert(data.message || data.msg || "Login failed");
+      return;
     }
-  };
+
+    console.log("Login successful, storing token...");
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("role", data.role);
+    localStorage.setItem("name", data.name);
+
+    console.log("Token stored, navigating based on role:", data.role);
+    switch (data.role) {
+      case "admin":
+        navigate("/admin/dashboard");
+        break;
+      case "seller":
+        navigate("/seller/dashboard");
+        break;
+      case "buyer":
+        navigate("/");
+        break;
+      default:
+        navigate("/");
+    }
+
+    alert("Login successful ✅");
+
+  } catch (error) {
+    console.error("Login error caught in catch block:", error);
+    alert("Server error, try again");
+  }
+};
+
+
 
   return (
     <div className="auth-container login">

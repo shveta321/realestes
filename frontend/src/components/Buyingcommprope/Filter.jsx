@@ -22,7 +22,7 @@ const Filter = () => {
       if (filters[key]) params.append(key, filters[key]);
     });
 
-    fetch(`http://localhost:5000/buyer/propertiess?${params.toString()}`)
+    fetch(`https://synamc.com/buyer/propertiess?${params.toString()}`)
       .then(res => res.json())
       .then(data => console.log("Filtered:", data))
       .catch(err => console.log(err));

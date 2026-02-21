@@ -5,7 +5,7 @@ export default function BuyerInterestChart() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/admin/stats/buyer-interest")
+    fetch("https://synamc.com/api/admin/stats/buyer-interest")
       .then(res => res.json())
       .then(setData);
   }, []);

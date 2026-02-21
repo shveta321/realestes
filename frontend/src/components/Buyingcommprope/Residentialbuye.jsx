@@ -33,7 +33,7 @@ const Residentialbuye = () => {
     });
 
     if (params.toString()) {
-      fetch(`http://localhost:5000/api/properties/filter?${params.toString()}`)
+      fetch(`http://synamc.com:5000/api/properties/filter?${params.toString()}`)
         .then(res => res.json())
         .then(data => setProperties(data))
         .catch(err => console.log(err));
@@ -43,7 +43,7 @@ const Residentialbuye = () => {
   // const getMedia = item => item.media || [];
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/properties")
+    fetch("http://synamc.com:5000/api/properties")
       .then(res => res.json())
       .then(data => setProperties(data))
       .catch(err => console.log(err));
@@ -93,7 +93,7 @@ const Residentialbuye = () => {
       postedBy: ""
     });
 
-    // fetch("http://localhost:5000/api/properties")
+    // fetch("https://synamc.com/api/properties")
     //   .then(res => res.json())
     //   .then(data => setProperties(data));
   };
@@ -178,7 +178,7 @@ const Residentialbuye = () => {
     {[1, 2, 3, 4, 5].map((num) => (
       <span
         key={num}
-        className={`chip ${filters.bhk == num ? "selected" : ""}`}
+        className={`chip ${filters.bhk === num ? "selected" : ""}`}
         onClick={() =>
           setFilters({ ...filters, bhk: num })
         }
@@ -249,7 +249,7 @@ const Residentialbuye = () => {
                     return;
                   }
 
-                  fetch(`http://localhost:5000/api/locations/suggest?q=${value}`)
+                  fetch(`https://synamc.com:5000/api/locations/suggest?q=${value}`)
                     .then(res => res.json())
                     .then(data => setSuggestions(data));
                 }}
@@ -277,7 +277,7 @@ const Residentialbuye = () => {
           </aside>
           <div>
             <h2 className="page-title">
-              Residential land / Plots in Jagriti Enclave, Delhi for Sale Posted By Dealer Below 10            </h2>
+              Residential land / Plots in Jagriti Enclave, Delhi for Sale Posted By Dealer Below 10  </h2>
 
             {properties.length > 0 ? (
               properties.map(item => (

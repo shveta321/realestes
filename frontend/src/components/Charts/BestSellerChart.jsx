@@ -6,7 +6,7 @@ export default function BestSellerChart() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/admin/stats/best-sellers")
+    fetch("https://synamc.com/api/admin/stats/best-sellers")
       .then(res => res.json())
       .then(setData);
   }, []);

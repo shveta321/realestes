@@ -13,7 +13,7 @@ export default function MyProperties() {
       const token = localStorage.getItem("token");
 
       const res = await axios.get(
-        "http://localhost:5000/seller/properties",
+        "http://synamc.com:5000/api/seller/properties",
         {
           headers: {
             Authorization: `Bearer ${token}`,

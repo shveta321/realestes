@@ -5,9 +5,9 @@ export default function Inquiries() {
   const token = localStorage.getItem("token");
 
   const fetchData = useCallback(async () => {
-    const res = await fetch("http://localhost:5000/admin/inquiries", {
+    const res = await fetch("http://synamc.com:5000/api/admin/inquiries", {
       headers: {
-        Authorization: "Bearer " + token
+        Authorization: `Bearer ${token}`
       }
     });
     const result = await res.json();
@@ -21,10 +21,10 @@ export default function Inquiries() {
   const deleteLead = async (id) => {
     if (!window.confirm("Delete this inquiry?")) return;
 
-    await fetch(`http://localhost:5000/admin/buyer-leads/${id}`, {
+    await fetch(`https://synamc.com/api/admin/buyer-leads/${id}`, {
       method: "DELETE",
       headers: {
-        Authorization: "Bearer " + token
+        Authorization: `Bearer ${token}`
       }
     });
 

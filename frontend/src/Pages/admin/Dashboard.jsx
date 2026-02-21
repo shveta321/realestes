@@ -28,18 +28,38 @@ const Dashboard = () => {
   const [stats, setStats] = useState(null); // ✅ ONLY ONE STATE
 
   useEffect(() => {
-    const fetchStats = async () => {
-      const token = localStorage.getItem("token");
+const fetchStats = async () => {
+  const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:5000/admin/dashboard-stats", {
-        headers: {
-          Authorization: "Bearer " + token
-        }
-      });
+  if (!token) {
+    console.log("No token found");
+    return;
+  }
 
-      const data = await res.json();
-      setStats(data);
-    };
+  const res = await fetch(
+    "http://synamc.com:5000/api/admin/dashboard-stats",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+
+  if (!res.ok) {
+    console.log("Unauthorized");
+    return;
+  }
+
+  const data = await res.json();
+
+  setStats({
+    buyerInterest: data.buyerInterest || 0,
+    topSellers: data.topSellers || [],
+    propertyTypes: data.propertyTypes || [],
+    monthlyLeads: data.monthlyLeads || []
+  });
+};
+
 
     fetchStats();
   }, []);
@@ -71,7 +91,7 @@ const Dashboard = () => {
         labels: stats.propertyTypes.map(p => p.type),
         datasets: [{
           data: stats.propertyTypes.map(p => p.count),
-          backgroundColor: ["#4CAF50", "#2196F3", "#FF9800"]
+          backgroundColor: ["#645b8d", "#2196F3", "#5a3a0a"]
         }]
       }}
       options={{ responsive: true, maintainAspectRatio: false }}
@@ -101,7 +121,7 @@ const Dashboard = () => {
         datasets: [{
           label: "Properties",
           data: stats.topSellers.map(s => s.total_properties),
-          backgroundColor: "#009688"
+          backgroundColor: "#559600"
         }]
       }}
       options={{ responsive: true, maintainAspectRatio: false }}

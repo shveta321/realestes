@@ -11,7 +11,7 @@ export default function Investors() {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const res = await fetch("http://localhost:5000/investor/submit", {
+    const res = await fetch("http://synamc.com:5000/investor/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form)

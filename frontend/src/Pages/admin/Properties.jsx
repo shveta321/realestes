@@ -14,7 +14,7 @@ export default function Properties() {
 
   const fetchProperties = async () => {
     const token = localStorage.getItem("token");
-    const res = await fetch("http://localhost:5000/admi/properties", {
+    const res = await fetch("http://synamc.com:5000/admin/properties", {
       headers: { Authorization: `Bearer ${token}` }
     });
 
@@ -23,7 +23,7 @@ export default function Properties() {
   };
 
   const approveProperty = async (id) => {
-    await fetch(`http://localhost:5000/admin/property/approve/${id}`, {
+    await fetch(`http://synamc.com:5000/api/admin/property/approve/${id}`, {
       method: "PATCH",
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
     });
@@ -31,7 +31,7 @@ export default function Properties() {
   };
 
   const rejectProperty = async (id) => {
-    await fetch(`http://localhost:5000/admin/property/reject/${id}`, {
+    await fetch(`http://synamc.com:5000/api/admin/property/reject/${id}`, {
       method: "PATCH",
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
     });
@@ -48,7 +48,7 @@ export default function Properties() {
       cancelButtonText: "Cancel"
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await fetch(`http://localhost:5000/admin/property/delete/${id}`, {
+        await fetch(`http://synamc.com:5000/api/admin/property/delete/${id}`, {
           method: "DELETE",
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         });
@@ -152,7 +152,7 @@ export default function Properties() {
           onClick={() => setPreview(null)}
         >
           <img
-            src={`http://localhost:5000/uploads/${preview}`}
+            src={`http://synamc.com:5000/uploads/${preview}`}
             alt="preview"
             style={{ maxHeight: "90vh", maxWidth: "90vw", borderRadius: "8px" }}
           />

@@ -10,16 +10,33 @@ export default function Investorprop() {
     fetchInvestors();
   }, []);
 
-  const fetchInvestors = async () => {
-    const token = localStorage.getItem("token");
+const fetchInvestors = async () => {
+  try {
+    const token = localStorage.getItem("token"); // JWT token
 
-    const res = await fetch("http://localhost:5000/admin/Investorss", {
-      headers: { Authorization: `Bearer ${token}` }
+    const res = await fetch("http://synamc.com:5000/api/admin/investorss", {
+      method: "GET", // GET request
+      headers: { 
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}` 
+      },
     });
 
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.msg || "Failed to fetch investors");
+    }
+
     const data = await res.json();
-    setInvestors(data);
-  };
+    console.log("Investors fetched:", data);
+    setInvestors(data); // state me set karo
+
+  } catch (err) {
+    console.error("Error fetching investors:", err);
+    alert(err.message);
+  }
+};
+
 
  const handleDelete = async (row) => {
   const result = await Swal.fire({
@@ -35,7 +52,7 @@ export default function Investorprop() {
 
   const token = localStorage.getItem("token");
 
-  const res = await fetch(`http://localhost:5000/admin/investorss/${row.id}`, {
+  const res = await fetch(`http://synamc.com:5000/api/admin/investorss/${row.id}`, {
     method: "DELETE",
     headers: { Authorization: `Bearer ${token}` },
   });

@@ -182,7 +182,16 @@ td svg:hover {
   overflow: hidden;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
 }
-
+table.dark {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 16px;
+    font-size: 15px;
+    color: #0d0d0d;
+}
 .table th,
 .table td {
   padding: 14px 16px;

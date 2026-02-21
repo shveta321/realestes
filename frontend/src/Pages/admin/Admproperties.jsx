@@ -13,7 +13,7 @@ export default function Admproperties() {
   // Load properties
   const load = async () => {
     try {
-      const res = await fetch("http://localhost:5000/admin/properties", {
+      const res = await fetch("http://synamc.com:5000/api/admin/properties", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -29,7 +29,7 @@ export default function Admproperties() {
   // Delete property
   const deleteProperty = async (id) => {
     if (!window.confirm("Delete property?")) return;
-    await fetch(`http://localhost:5000/admin/properties/${id}`, {
+    await fetch(`http://synamc.com:5000/api/admin/properties/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
@@ -38,7 +38,7 @@ export default function Admproperties() {
 
   // Approve property
   const approveProperty = async (id) => {
-    await fetch(`http://localhost:5000/admin/properties/${id}/approve`, {
+    await fetch(`http://synamc.com:5000/api/admin/properties/${id}/approve`, {
       method: "PUT",
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
@@ -47,7 +47,7 @@ export default function Admproperties() {
 
   // Reject property
   const rejectProperty = async (id) => {
-    await fetch(`http://localhost:5000/admin/properties/${id}/reject`, {
+    await fetch(`http://synamc.com:5000/api/admin/properties/${id}/reject`, {
       method: "PUT",
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
@@ -56,7 +56,7 @@ export default function Admproperties() {
 
   // Toggle property status (optional)
   const toggleStatus = async (id) => {
-    await fetch(`http://localhost:5000/admin/properties/${id}/status`, {
+    await fetch(`http://synamc.com:5000/api/admin/properties/${id}/status`, {
       method: "PUT",
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
@@ -200,13 +200,13 @@ export default function Admproperties() {
 
           {previewImages[currentIndex].endsWith(".mp4") ? (
             <video
-              src={`http://localhost:5000${previewImages[currentIndex]}`}
+              src={`http://synamc.com:5000${previewImages[currentIndex]}`}
               controls
               width="600"
             />
           ) : (
             <img
-              src={`http://localhost:5000${previewImages[currentIndex]}`}
+              src={`http://synamc.com:5000${previewImages[currentIndex]}`}
               alt="preview"
               width="600"
               onError={(e) => (e.target.src = "/default.png")}

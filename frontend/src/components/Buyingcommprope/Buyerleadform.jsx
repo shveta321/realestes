@@ -31,7 +31,7 @@ const Buyerleadform = ({ property, onClose }) => {
   }
 
   try {
-    const res = await fetch("http://localhost:5000/buyer-leads", {
+    const res = await fetch("http://synamc.com:5000/buyer-leads", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
