@@ -32,3 +32,4 @@ yarn-error.log*
 # Zip files
 *.zip
 npm-debug.log*
+*.exe
