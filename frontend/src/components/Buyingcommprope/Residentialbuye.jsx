@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../Buyingcommprope/Buyicommproperty.css";
 import Buyerleadform from "./Buyerleadform";
-
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const Residentialbuye = () => {
   const [properties, setProperties] = useState([]);
@@ -10,6 +11,13 @@ const Residentialbuye = () => {
   const [city, setCity] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage] = useState(4);
+
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+
+  const currentProperties = properties.slice(indexOfFirstRow, indexOfLastRow);
 
   // Slider state for each property
   const [currentSlide, setCurrentSlide] = useState({});
@@ -18,12 +26,25 @@ const Residentialbuye = () => {
     property_subtype: "",
     minPrice: "",
     maxPrice: "",
-     bhk: "",
+    bhk: "",
     city: "",
     locality: "",
-    postedBy: ""
+    postedBy: "",
+    distressed: ""
   });
 
+  const query = new URLSearchParams(useLocation().search);
+  const location = query.get("location");
+  const type = query.get("type");
+
+  useEffect(() => {
+    axios.get("https://synamc.com/api/search", {
+      params: {
+        keyword: location,
+        tab: type === "rent" ? "rent" : "buy"
+      }
+    }).then(res => setProperties(res.data));
+  }, [location, type]);
 
   useEffect(() => {
     const params = new URLSearchParams();
@@ -33,7 +54,7 @@ const Residentialbuye = () => {
     });
 
     if (params.toString()) {
-      fetch(`http://synamc.com:5000/api/properties/filter?${params.toString()}`)
+      fetch(`https://synamc.com/api/properties/filter?${params.toString()}`)
         .then(res => res.json())
         .then(data => setProperties(data))
         .catch(err => console.log(err));
@@ -43,7 +64,7 @@ const Residentialbuye = () => {
   // const getMedia = item => item.media || [];
 
   useEffect(() => {
-    fetch("http://synamc.com:5000/api/properties")
+    fetch("https://synamc.com/api/properties?type=residential")
       .then(res => res.json())
       .then(data => setProperties(data))
       .catch(err => console.log(err));
@@ -87,17 +108,39 @@ const Residentialbuye = () => {
       property_subtype: "",
       minPrice: "",
       maxPrice: "",
-       bhk: "",
+      bhk: "",
       city: "",
       locality: "",
-      postedBy: ""
+      postedBy: "",
+      distressed: ""
     });
+    setCity("");
+    setSuggestions([]);
 
     // fetch("https://synamc.com/api/properties")
     //   .then(res => res.json())
     //   .then(data => setProperties(data));
+
+    fetch("https://synamc.com/api/properties?type=Residential")
+      .then(res => res.json())
+      .then(data => setProperties(data))
+      .catch(err => console.log(err));
   };
 
+
+  const defaultCity = "";
+  const defaultLocality = "";
+  const propertyCount = properties.length;
+
+  const locationText =
+    filters.locality
+      ? `${filters.locality} ${filters.city || defaultCity}`
+      : filters.city || `${defaultLocality} ${defaultCity}`;
+
+  const propertyTypeText =
+    filters.property_type === "Commercial"
+      ? "Commercial Properties"
+      : "Residential ";
 
 
   return (
@@ -106,7 +149,7 @@ const Residentialbuye = () => {
         <div className="listing-container">
           <aside className="filters-panel">
             <div className="filters-header">
-              <h4>Applied Filters</h4>
+              <h4> Filters</h4>
               <button className="clear-link" onClick={clearAll}>
                 Clear All
               </button>
@@ -139,7 +182,7 @@ const Residentialbuye = () => {
                     setFilters({ ...filters, minPrice: e.target.value })
                   }
                 >
-                  <option value=""> No Min</option>
+                  <option value="">  Min</option>
                   <option value="500000">₹5 Lakh</option>
                   <option value="1000000">₹10 Lakh</option>
                   <option value="1500000">₹15 Lakh</option>
@@ -155,7 +198,7 @@ const Residentialbuye = () => {
                     setFilters({ ...filters, maxPrice: e.target.value })
                   }
                 >
-                  <option value="">No Max</option>
+                  <option value=""> Max</option>
                   <option value="500000">₹5 Lakh</option>
                   <option value="1000000">₹10 Lakh</option>
                   <option value="1500000">₹15 Lakh</option>
@@ -169,25 +212,25 @@ const Residentialbuye = () => {
 
             </div>
 
-<hr />
+            <hr />
 
-{/* BHK */}
-<div className="filter-block">
-  <h4>BHK</h4>
-  <div className="chips-list">
-    {[1, 2, 3, 4, 5].map((num) => (
-      <span
-        key={num}
-        className={`chip ${filters.bhk === num ? "selected" : ""}`}
-        onClick={() =>
-          setFilters({ ...filters, bhk: num })
-        }
-      >
-        {num} BHK
-      </span>
-    ))}
-  </div>
-</div>
+            {/* BHK */}
+            <div className="filter-block">
+              <h4>BHK</h4>
+              <div className="chips-list">
+                {[1, 2, 3, 4, 5].map((num) => (
+                  <span
+                    key={num}
+                    className={`chip ${filters.bhk === num ? "selected" : ""}`}
+                    onClick={() =>
+                      setFilters({ ...filters, bhk: num })
+                    }
+                  >
+                    {num} BHK
+                  </span>
+                ))}
+              </div>
+            </div>
 
             <hr />
 
@@ -209,11 +252,32 @@ const Residentialbuye = () => {
               </div>
 
             </div>
+            <div className="filter-block">
+              <h4>Distressed</h4>
+              <div className="chips-list">
 
+                {["Distressed Property", "Fair Market Valued"].map((type) => (
+                  <span
+                    key={type}
+                    className={`chip ${filters.distressed === type ? "selected" : ""
+                      }`}
+                    onClick={() =>
+                      setFilters({
+                        ...filters,
+                        distressed: filters.distressed === type ? "" : type
+                      })
+                    }
+                  >
+                    {type}
+                  </span>
+                ))}
+
+              </div>
+            </div>
             <hr />
 
             {/* Posted By */}
-            <div className="filter-block">
+            {/* <div className="filter-block">
               <h4>Posted By</h4>
               <div className="chips-list">
                 {["Owner", "Builder", "Dealer"].map((role) => (
@@ -229,11 +293,8 @@ const Residentialbuye = () => {
                   </span>
                 ))}
               </div>
-            </div>
-
+            </div> */}
             <hr />
-
-            {/* Location Search */}
             <div className="filter-block">
               <h4>Location</h4>
               <input
@@ -249,7 +310,7 @@ const Residentialbuye = () => {
                     return;
                   }
 
-                  fetch(`https://synamc.com:5000/api/locations/suggest?q=${value}`)
+                  fetch(`https://synamc.com/api/locations/suggest?q=${value}`)
                     .then(res => res.json())
                     .then(data => setSuggestions(data));
                 }}
@@ -277,10 +338,11 @@ const Residentialbuye = () => {
           </aside>
           <div>
             <h2 className="page-title">
-              Residential land / Plots in Jagriti Enclave, Delhi for Sale Posted By Dealer Below 10  </h2>
+              {propertyCount > 0 ? propertyCount : "No"}  Results |  {propertyTypeText}property  for sale  {locationText}
+            </h2>
 
             {properties.length > 0 ? (
-              properties.map(item => (
+              currentProperties.map(item => (
                 <div key={item.id} className="property-card">
                   <div className="slider-container">
                     {getMedia(item).length > 0 ? (
@@ -325,8 +387,8 @@ const Residentialbuye = () => {
                     </div>
                     <div className="property-loc">
                       <span className="subtype">{item.property_type}, </span>
-                                            <span className="subtype">{item.bhk} Bhk</span>
-                                            {/* <p>{item.bhk} BHK</p> */}
+                      <span className="subtype">{item.bhk} Bhk</span>
+                      {/* <p>{item.bhk} BHK</p> */}
 
 
 
@@ -342,14 +404,21 @@ const Residentialbuye = () => {
                       </div>
                       <span className="prosub">{item.property_subtype}</span>
                     </div>
+                    <div className="property-distre">
+                      <div className="property-distre">
+                        {item.distressed && (
+                          <span className="tex-dest">{item.distressed}</span>
+                        )}                    </div>
+                      <div className="property-fur">
+                        <span>{item.furnishing}</span>
+                        <span>{item.amenities}</span>
+                      </div>
+                    </div>
 
                     <div className="property-loc">
                       <span className="tex-dec">{item.description}</span>
                     </div>
-                    <div className="property-loc">
-                      <span>{item.furnishing}</span>
-                      <span>{item.amenities}</span>
-                    </div>
+
                     <div className="info-footer">
                       <button
                         className="view-btn"
@@ -358,16 +427,45 @@ const Residentialbuye = () => {
                           setShowPopup(true);
                         }}
                       >
-                        View Number
+                        Submit your particulars
                       </button>
-                      <button className="contact-btn">Contact</button>
+                      {/* <button className="contact-btn">Contact</button> */}
                     </div>
                   </div>
                 </div>
               ))
+
             ) : (
               <p>No properties found</p>
             )}
+
+            <div style={{ marginTop: "20px", textAlign: "center" }}>
+              <button
+                onClick={() => setCurrentPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                style={{ marginRight: "10px" }}
+              >
+                Prev
+              </button>
+
+              <span>
+                Page {currentPage} of {Math.ceil(properties.length / rowsPerPage)}
+              </span>
+
+              <button
+                onClick={() =>
+                  setCurrentPage(
+                    currentPage < Math.ceil(properties.length / rowsPerPage)
+                      ? currentPage + 1
+                      : currentPage
+                  )
+                }
+                disabled={currentPage === Math.ceil(properties.length / rowsPerPage)}
+                style={{ marginLeft: "10px" }}
+              >
+                Next
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -377,6 +475,7 @@ const Residentialbuye = () => {
           property={selectedProperty}
           onClose={() => setShowPopup(false)}
         />
+
       )}
     </>
   );

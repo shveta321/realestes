@@ -17,61 +17,59 @@ const Buyerleadform = ({ property, onClose }) => {
         setForm({ ...form, [name]: type === "checkbox" ? checked : value });
     };
 
-   const handleSubmit = async (e) => {
-  e.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-  if (!form.agree) {
-    alert("Please accept Terms & Conditions!");
-    return;
-  }
+        if (!form.agree) {
+            alert("Please accept Terms & Conditions!");
+            return;
+        }
 
-  if (!property?.id) {
-    alert("Property ID missing");
-    return;
-  }
+        if (!property?.id) {
+            alert("Property ID missing");
+            return;
+        }
 
-  try {
-    const res = await fetch("http://synamc.com:5000/buyer-leads", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        property_id: property.id,
-        name: form.name.trim(),
-        phone: form.phone.trim(),
-        reason: form.reason,
-        isDealer: form.isDealer,
-        timeToBuy: form.timeToBuy,
-        homeLoan: form.homeLoan ? 1 : 0,
-        siteVisit: form.siteVisit ? 1 : 0
-      })
-    });
+        try {
+            const res = await fetch("https://synamc.com/api/buyer-leads", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    property_id: property.id,
+                    name: form.name.trim(),
+                    phone: form.phone.trim(),
+                    reason: form.reason,
+                    isDealer: form.isDealer,
+                    timeToBuy: form.timeToBuy,
+                    homeLoan: form.homeLoan ? 1 : 0,
+                    siteVisit: form.siteVisit ? 1 : 0
+                })
+            });
 
-    const data = await res.json();
+            const data = await res.json();
 
-    if (!res.ok) {
-      alert(data.msg || "Something went wrong");
-      return;
-    }
+            if (!res.ok) {
+                alert(data.msg || "Something went wrong");
+                return;
+            }
 
-    alert("Lead submitted successfully ✅");
-    onClose();
+            alert("Lead submitted successfully ✅");
+            onClose();
 
-  } catch (err) {
-    console.error("Frontend error:", err);
-    alert("Server error");
-  }
-};
-
-
+        } catch (err) {
+            console.error("Frontend error:", err);
+            alert("Server error");
+        }
+    };
     return (
         <div className="modal-overlay">
             <div className="modal-box big">
 
                 <button className="close-btn" onClick={onClose}>×</button>
 
-                <h3>You are requesting to view advertiser details</h3>
+                {/* <h3>You are requesting to view advertiser details</h3> */}
 
                 {/* 🔹 PROPERTY DETAILS (SAME LOGIC) */}
                 <div className="ad-details">
@@ -81,11 +79,11 @@ const Buyerleadform = ({ property, onClose }) => {
                             <p>📞 +91 98***543**</p>
                         </div>
                         <div className="post-det">
-                            <p><strong>POSTED ON:</strong> 08 Jan 2026</p>
+                            {/* <p><strong>POSTED ON:</strong> 08 Jan 2026</p> */}
                             <p>
-                                 <strong>
+                                {/* <strong>
                                     ₹{property?.estimated_price}
-                                </strong>
+                                </strong> */}
                                 {/* <strong>
                                     ₹{property?.estimated_price} | {property?.size} | {property?.bhk}
                                 </strong> */}
@@ -95,7 +93,7 @@ const Buyerleadform = ({ property, onClose }) => {
 
 
                 </div>
-<h4>Please fill in your details to be shared with this advertiser only.</h4>
+                <h4>Please fill in your details to be shared with this advertiser only.</h4>
                 <h4>BASIC INFORMATION</h4>
 
                 <form onSubmit={handleSubmit}>
@@ -193,7 +191,7 @@ const Buyerleadform = ({ property, onClose }) => {
 
 
                             <button type="submit" className="submit-btnss">
-submit                            </button>
+                                submit                            </button>
                         </div>
                     </div>
 

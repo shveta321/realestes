@@ -8,7 +8,7 @@ const SellerDashboard = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    axios.get("http://synamc.com:5000/api/seller/dashboard-stats", {
+    axios.get("https://synamc.com/api/seller/dashboard-stats", {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => setStats(res.data))

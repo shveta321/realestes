@@ -10,6 +10,7 @@ const Contact = () => {
     phone: "",
     message: "",
   });
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,30 +20,39 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    // Optional validation
-    if (!formData.name || !formData.email || !formData.message) {
-      alert("Please fill required fields!");
-      return;
+  if (!formData.name || !formData.email || !formData.message) {
+    alert("Please fill required fields!");
+    return;
+  }
+
+  try {
+    const res = await fetch("http://localhost:5000/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return alert(data.msg || "Error");
     }
 
-    console.log("FORM SUBMITTED: ", formData);
+    alert("Message sent successfully ✅");
 
-    // === backend ke liye ===
-    // fetch("https://synamc.com/contact", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(formData),
-    // });
-
-    alert("Message sent successfully!");
-
-    // popup close + form reset
     setOpen(false);
     setFormData({ name: "", email: "", phone: "", message: "" });
-  };
+
+  } catch (err) {
+    console.error(err);
+    alert("Server error");
+  }
+};
 
   return (
     <div className="contact-container">
@@ -97,8 +107,8 @@ const Contact = () => {
               <button type="submit" className="send-btn">Send Message</button>
             </form>
 
-            <span className="close-btn" onClick={() => setOpen(false)}>×</span>
-          </div>
+            <span className="close-btn" onClick={() => (false)}>×</span>
+          </div>setOpen
         </div>
       )}
     </div>

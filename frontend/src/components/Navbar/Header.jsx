@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import "./Header.css";
+import prologos from "../image/prologos.png";
+// import Freeuplod from "../Banner/Freeuplod";
 
 const Header = () => {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [userName, setUserName] = useState(null);
 
@@ -23,6 +25,7 @@ const Header = () => {
     navigate("/");
   };
 
+
   return (
     <motion.header
       className="header"
@@ -33,46 +36,109 @@ const Header = () => {
       <div className="container-h">
 
         {/* Logo */}
-        <div className="logo">
-          <Link to="/">
-            <strong>Syn X</strong>
-            <span className="tagline">Real Estate & Advisory Platform</span>
-          </Link>
-        </div>
+        <Link to="/">
+          <img src={prologos} alt="Syn X Logos" className="site-logo" />
+
+          {/* <div className="logo-text">
+      <strong>Syn X</strong>
+      <span className="tagline">Real Estate & Advisory Platform</span>
+    </div> */}
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className={`nav ${mobileMenu ? "open" : ""}`}>
+
+          <span className="close-btn" onClick={() => setMobileMenu(false)}>×</span>
           <ul className="navba">
+
             <li><Link to="/">Home</Link></li>
 
+            {/* BUY */}
             <li className="dropdown">
-              <span className="dropdown-toggle" onClick={() => setOpen(!open)}>
-                Properties ▾
-              </span>
+              <span className="dropdown-toggle">Buy ▾</span>
+              <ul className="dropdown-menu">
+                <li><Link to="/Residentialbuye">Residential</Link></li>
+                <li><Link to="/Buyicommproperty">Commercial</Link></li>
+                {/* <li><Link to="/Distressed Assets">Distressed Assets</Link></li> */}
 
-              <AnimatePresence>
-                {open && (
-                  <motion.ul
-                    className="dropdown-menu animated-dropdown"
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <li><Link to="/PlotTips">Buying</Link></li>
-                    <li><Link to="/properties/private">Private Sale</Link></li>
-                    <li><Link to="/properties/residential">Residential</Link></li>
-                    <li><Link to="/Commercialtips">Commercial</Link></li>
-                  </motion.ul>
-                )}
-              </AnimatePresence>
+                <li><Link to="/LandPlot">Land / Plot</Link></li>
+
+              </ul>
             </li>
+            {/* <li><Link to="/Freeuplod">Sell</Link></li> */}
+            <li className="dropdown">
+              <span className="dropdown-toggle">Sell ▾</span>
+              <ul className="dropdown-menu">
+                <li><Link to="/Freeuplod">Residential</Link></li>
+                <li><Link to="/Freeuplod">Commercial</Link></li>
+                <li><Link to="/Freeuplod"> Land/Plot</Link></li>
+              </ul>
+            </li>
+            {/* RENTING */}
+            {/* <li className="dropdown">
+              <span className="dropdown-toggle">Renting ▾</span>
+              <ul className="dropdown-menu">
+                <li><Link to="/villa">Villa</Link></li>
+                <li><Link to="/house">House</Link></li>
+                <li><Link to="/pg">PG</Link></li>
+              </ul>
+            </li> */}
 
+            {/* ADVISORY */}
+            <li className="dropdown">
+              <span className="dropdown-toggle">Advisory ▾</span>
+              <ul className="dropdown-menu big-menu">
+                {/* <li><Link>Transaction & Deal Structuring</Link></li> */}
+                 <li>
+      <Link to="/service/Transaction%20%26%20Deal%20Structuring">
+        Transaction & Deal Structuring
+      </Link>
+    </li>
+                {/* <li><Link>Income Tax, GST & Stamp Duty</Link></li> */}
+                 <li>
+       <Link to="/service/Income%20Tax,%20GST%20%26%20Stamp%20Duty">
+         Income Tax, GST & Stamp Duty
+       </Link>
+    </li>
+    
+                {/* <li><Link>Regulatory & Compliance</Link></li> */}
+                 <li>
+     <Link to="/service/Regulatory%20%26%20Compliance">
+       Regulatory & Compliance
+     </Link>
+     </li>
+                {/* <li><Link>Due Diligence & Forensic</Link></li> */}
+                  <li>
+    <Link to="/service/Due%20Diligence%20%26%20Forensic">
+      Due Diligence & Forensic
+     </Link>
+     </li>
+                <li><Link>Stressed Asset / Insolvency</Link></li>
+                <li><Link>Virtual CFO for Developers</Link></li>
+                <li><Link>Insolvency & Distressed Real Estate</Link></li>
+              </ul>
+            </li>
+            {/* FINANCING */}
+            {/* <li className="dropdown">
+              <span className="dropdown-toggle">Financing ▾</span>
+              <ul className="dropdown-menu">
+                <li><Link>Fund Raising & Structured Finance</Link></li>
+                <li><Link>Project Finance & Monitoring</Link></li>
+              </ul>
+            </li> */}
 
-            <li><Link to="/advisory">Advisory Services</Link></li>
-            <li><Link to="/funding">Funding</Link></li>
-            <li><Link to="/channel-partners">For Owners</Link></li>
-            <li><Link to="/Contact">Contact</Link></li>
+            {/* CROWD FUNDING */}
+            {/* <li className="dropdown">
+              <span className="dropdown-toggle">Crowd Funding ▾</span>
+              <ul className="dropdown-menu">
+                <li><Link>Real Estate Valuation</Link></li>
+                <li><Link>Investment Advisory</Link></li>
+                <li><Link>Investment in Distressed Properties</Link></li>
+              </ul>
+            </li> */}
+
+            <li><Link to="/investors">Investors</Link></li>
+
           </ul>
         </nav>
 
@@ -102,3 +168,52 @@ const Header = () => {
 };
 
 export default Header;
+
+
+
+
+
+
+  // <ul className="dropdown-menu big-menu">
+  //   <li>
+  //     <Link to="/service/Transaction%20%26%20Deal%20Structuring">
+  //       Transaction & Deal Structuring
+  //     </Link>
+  //   </li>
+
+  //   <li>
+  //     <Link to="/service/Income%20Tax,%20GST%20%26%20Stamp%20Duty">
+  //       Income Tax, GST & Stamp Duty
+  //     </Link>
+  //   </li>
+
+  //   <li>
+  //     <Link to="/service/Regulatory%20%26%20Compliance">
+  //       Regulatory & Compliance
+  //     </Link>
+  //   </li>
+
+  //   <li>
+  //     <Link to="/service/Due%20Diligence%20%26%20Forensic">
+  //       Due Diligence & Forensic
+  //     </Link>
+  //   </li>
+
+  //   <li>
+  //     <Link to="/service/Stressed%20Asset%20/%20Insolvency">
+  //       Stressed Asset / Insolvency
+  //     </Link>
+  //   </li>
+
+  //   <li>
+  //     <Link to="/service/Virtual%20CFO%20for%20Developers">
+  //       Virtual CFO for Developers
+  //     </Link>
+  //   </li>
+
+  //   <li>
+  //     <Link to="/service/Insolvency%20%26%20Distressed%20Real%20Estate">
+  //       Insolvency & Distressed Real Estate
+  //     </Link>
+  //   </li>
+  // </ul>

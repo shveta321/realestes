@@ -9,6 +9,7 @@ import funding from "../image/funding.webp";
 import "./Homep.css";
 
 const Buyingcom = () => {
+  
   const cardData = [
     {
       title: "Commercial property for sale",
@@ -23,7 +24,7 @@ const Buyingcom = () => {
       link: "/Residentialbuye",
     },
     {
-      title: "PG Rent",
+      title: "Plot",
       desc: "",
       img: funding,
       link: "/Pgrentbuying",
@@ -40,13 +41,13 @@ const Buyingcom = () => {
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
       >
-        Explore Plots / Land in Popular Delhi / NCR
+Explore Residential, Commercial property and land/ Plot
       </motion.h2>
 
       <div className="card-container">
         {cardData.map((card, index) => (
           <motion.div
-            className="card"
+            className="cardss"
             key={index}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}

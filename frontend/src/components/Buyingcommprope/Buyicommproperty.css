@@ -71,7 +71,7 @@
     display: flex;
     gap: 2px;
     font-weight: 600;
-    margin-top: 15px;
+    margin-top: 1px;
 }
 .locat-pro {
     font-size: 15px;
@@ -84,10 +84,10 @@
     font-size: 16px;
 }
 .suggestion-box {
-    position: absolute;
+    position: static;
     background: #fff;
     border: 1px solid #efeded;
-    width: 19%;
+    width: 60%;
     max-height: 200px;
     overflow-y: auto;
     z-index: 1000;
@@ -240,8 +240,8 @@
     border-right: 1px solid #e5e5e5;
     font-family: sans-serif;
     border: 1px solid;
+    height: 878px;
 }
-
 .filters-header {
   display: flex;
   justify-content: space-between;
@@ -424,8 +424,8 @@
     }
     .slider-container {
     position: relative;
-    width: 355px;
-    height: 274px;
+        width: 100%;
+            height: 274px;
     overflow: clip;    border-radius: 6px;
     margin-bottom: 10px;
 }
@@ -437,93 +437,115 @@
 }
 
 /* investor******************************* */
-.investor-form {
-  width: 90%;
-  max-width: 480px;
-  margin: 31px auto;
-      background: #4a4a89;
-  padding: 25px 30px;
-  border-radius: 12px;
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.08);
-  animation: fadeIn 0.6s ease;
-  transition: 0.3s ease-in-out;
-  color: #fff;
-
-}
-
-.investor-form:hover {
-  transform: translateY(-3px);
-  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.12);
-}
-
-.fom-title {
-  text-align: center;
-  font-size: 26px;
-  font-weight: bold;
-  margin-bottom: 15px;
-  color: white;
-}
-
-.invester-fom {
+/* Container */
+.form-container {
+  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  margin-bottom: 14px;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  padding: 20px;
 }
 
-.invester-fom label {
-  font-size: 18px;
-  margin-bottom: 4px;
-  color: white;
-}
-.invester-fom input {
-  padding: 10px 12px;
-  border: 1px solid #d9d9d9;
-  border-radius: 6px;
-  font-size: 15px;
-  outline: none;
-  transition: border 0.3s ease;
-}
-.invester-fom input:focus {
-  border-color: #007bff;
+/* Form Box */
+.investor-form {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 700px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
-.submit-btn {
-    width: 24%;
-    padding: 12px;
-    background: #19d3ca;
-  border: none;
+/* Heading */
+.investor-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Row */
+.form-group {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+/* Inputs */
+.investor-form input,
+.investor-form select {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
   border-radius: 8px;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+/* Focus effect */
+.investor-form input:focus,
+.investor-form select:focus {
+  border-color: #667eea;
+  outline: none;
+  box-shadow: 0 0 5px rgba(102,126,234,0.5);
+}
+
+/* Button */
+.investor-form button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #667eea;
   color: white;
   font-size: 16px;
-  font-weight: 600;
+  border-radius: 8px;
   cursor: pointer;
-  margin-top: 10px;
-  transition: 0.25s ease-in-out;
+  transition: 0.3s;
 }
 
-.submit-btn:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
+.investor-form button:hover {
+  background: #5a67d8;
+}
+.suggestion-box {
+    position: absolute;
+    width: 43%;
+    background: #fff;
+    border: 1px solid #ddd;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 1000;
+    top: 27px;
+    border-radius: 7px;
 }
 
-/* Animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.suggestion-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  cursor: pointer;
 }
 
-/* Responsive */
-@media(max-width: 500px) {
-  .investor-form {
-    padding: 20px;
+.suggestion-item:hover {
+  background: #f5f5f5;
+}
+
+.tag {
+  font-size: 12px;
+  color: #888;
+}
+@media (max-width: 600px) {
+  .form-group {
+    flex-direction: column;
   }
+  /* .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 19px;
+    border: none;
+    background: none;
+    cursor: pointer;
+} */
 }
 /* Buyerleadform *****************/
 .modal-overlay {
@@ -553,15 +575,15 @@
   to { transform: scale(1); opacity: 1 }
 }
 
-.close-btn {
+/* .close-btn {
   position: absolute;
   top: 10px;
   right: 14px;
-  font-size: 22px;
+  font-size: 1px;
   border: none;
   background: none;
   cursor: pointer;
-}
+} */
 
 .modal-box h3 {
   margin-bottom: 10px;
@@ -613,5 +635,33 @@ input[type="checkbox"] {
 .main-basic {
     width: 50%;
 }
-
+/* .tex-dest {
+    font-size: 15px;
+    margin-top: 13px;
+    background: antiquewhite;
+    font-weight: 600;
+    color: #006e00;
+    padding: 7px;
+    border-radius: 3px;
+} */
+ .tex-dest {
+    font-size: 15px;
+    /* font-weight: 500; */
+    margin-top: 13px;
+    background: #112672;
+    font-weight: 400;
+    color: #ffffff;
+    padding: 7px;
+    border-radius: 3px;
+}
+.property-distre {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-weight: 600;
+}
+.property-fur {
+    display: flex;
+    gap: 12px;
+}
 

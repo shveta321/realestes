@@ -1,5 +1,4 @@
 import React from "react";
-// import "./Ownersbuy.css";
 import { Link } from "react-router-dom";
 
 
@@ -10,7 +9,7 @@ const Ownersbuy = () => {
     title: "For Property Owners",
     desc: "Sell or rent your property faster with verified buyers and premium listing support.",
     img: Ownersproperty,
-     link: "/Buyicommproperty",
+     link: "/suyicommproperty",
   };
 
   return (

@@ -6,7 +6,7 @@ const Lookbuyer = () => {
   return (
     <div className="promo-page">
 <div className="prom-head">
-    <h1>Sell or Lease out your Plots/Land faster with Syn X Real Estate</h1>
+    <h1>Sell your Plot /Land faster with Synamc Real Estate</h1>
 </div>
       {/* Card 1 */}
       <div className="promo-card">
@@ -19,7 +19,7 @@ const Lookbuyer = () => {
             Connect with serious investors and verified buyers for residential,
             commercial, and industrial plots.
           </p>
-          <button>Find Buyers</button>
+          <button> Buyers</button>
         </div>
       </div>
 

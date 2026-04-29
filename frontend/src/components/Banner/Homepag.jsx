@@ -1,60 +1,101 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import banner from "../image/banner5.jpg";
 import "../Banner/Homep.css";
 
 const Homepag = () => {
+
+  const [searchText, setSearchText] = useState("");
+  const [activeTab, setActiveTab] = useState("buy");
+
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    if (!searchText) {
+      alert("Enter location");
+      return;
+    }
+
+    const text = searchText.toLowerCase();
+
+    //  Direct property_type search
+    if (text.includes("commercial")) {
+      navigate(`/Buyicommproperty?location=${searchText}`);
+      return;
+    }
+
+    if (text.includes("residential")) {
+      navigate(`/Residentialbuye?location=${searchText}`);
+      return;
+    }
+
+    // 👉 Normal tab logic
+    if (activeTab === "buy") {
+      navigate(`/Residentialbuye?location=${searchText}`);
+    }
+    else if (activeTab === "commercial") {
+      navigate(`/Buyicommproperty?location=${searchText}`);
+    }
+    else if (activeTab === "rent") {
+      navigate(`/Residentialbuye?location=${searchText}&type=rent`);
+    }
+    else if (activeTab === "plots") {
+      navigate(`/Residentialbuye?location=${searchText}&type=plot`);
+    }
+  };
   return (
     <div className="home">
-
-      {/* Banner Section */}
       <section className="hero">
 
-        {/* Animated Image */}
         <motion.img
           src={banner}
           alt="Home Banner"
           className="hero-img"
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1.5 }}
         />
 
-        {/* Content */}
-        <motion.div
-          className="hero-content"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <motion.h1
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            Welcome to <br />
-            Syn X Real Estate & Advisory
-          </motion.h1>
+        <motion.div className="hero-content">
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-          >
-            Platform for Smart Investments
-          </motion.p>
+          <div className="search-wrapper">
 
-          {/* <motion.button
-            className="hero-btn"
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Explore Properties
-          </motion.button> */}
+            {/* Tabs */}
+            <div className="tabs">
+              <span className={activeTab === "buy" ? "active" : ""} onClick={() => setActiveTab("buy")}>Buy</span>
+              {/* <span className={activeTab === "rent" ? "active" : ""} onClick={() => setActiveTab("rent")}>Renting</span> */}
+              <span
+                className={activeTab === "commercial" ? "active" : ""}
+                onClick={() => {
+                  setActiveTab("commercial");
+                  navigate("/Buyicommproperty");
+                }}
+              >
+                Commercial
+              </span>
+              <span
+                className={activeTab === "residential" ? "active" : ""}
+                onClick={() => {
+                  setActiveTab("residential");
+                  navigate("/Residentialbuye");
+                }}
+              >
+                Residential
+              </span>              <span className={activeTab === "plots" ? "active" : ""} onClick={() => setActiveTab("plots")}>Plots</span>
+            </div>
+
+            {/* Search */}
+            <input
+              type="text"
+              placeholder="Search ..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+
+            <button onClick={handleSearch}>Search</button>
+
+          </div>
+
         </motion.div>
-
       </section>
-
     </div>
   );
 };

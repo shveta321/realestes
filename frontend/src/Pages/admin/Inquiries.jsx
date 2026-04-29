@@ -3,9 +3,16 @@ import React, { useEffect, useState, useCallback } from "react";
 export default function Inquiries() {
   const [data, setData] = useState([]);
   const token = localStorage.getItem("token");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage] = useState(5);
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+
+  const currentData = data.slice(indexOfFirstRow, indexOfLastRow);
+
 
   const fetchData = useCallback(async () => {
-    const res = await fetch("http://synamc.com:5000/api/admin/inquiries", {
+    const res = await fetch("https://synamc.com/api/inquiries", {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -21,7 +28,7 @@ export default function Inquiries() {
   const deleteLead = async (id) => {
     if (!window.confirm("Delete this inquiry?")) return;
 
-    await fetch(`https://synamc.com/api/admin/buyer-leads/${id}`, {
+    await fetch(`https://synamc.com/api/buyer-leads/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`
@@ -31,11 +38,12 @@ export default function Inquiries() {
     fetchData();
   };
 
+  
   return (
     <div>
       <h2>Buyer Inquiries</h2>
 
-      <table className="admin-table">
+      <table className="custom-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -52,7 +60,7 @@ export default function Inquiries() {
         </thead>
 
         <tbody>
-          {data.map((item) => (
+          {currentData.map((item) => (
             <tr key={item.id}>
               <td>{item.name}</td>
               <td>{item.phone}</td>
@@ -72,9 +80,37 @@ export default function Inquiries() {
                 </button>
               </td>
             </tr>
+
           ))}
+      
         </tbody>
+
       </table>
+        <div style={{ marginTop: "10px", display: "flex" }}>
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Prev
+        </button>
+
+        <span style={{ margin: "0 10px" }}>
+          Page {currentPage}
+        </span>
+
+        <button
+          onClick={() =>
+            setCurrentPage(
+              currentPage < Math.ceil(data.length / rowsPerPage)
+                ? currentPage + 1
+                : currentPage
+            )
+          }
+          disabled={currentPage === Math.ceil(data.length / rowsPerPage)}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

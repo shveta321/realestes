@@ -36,14 +36,11 @@
     transform: rotate(360deg);
   }
 }
-/* MAIN CONTAINER */
 .admin-container {
   display: flex;
   height: 100vh;
   overflow: hidden;
 }
-
-/* SIDEBAR */
 .sidebar {
   width: 240px;
   background: #1e293b;
@@ -55,35 +52,30 @@
   display: flex;
   flex-direction: column;
 }
-
-/* SIDEBAR TITLE */
 .sidebar-title {
   padding: 20px;
   font-size: 20px;
   text-align: center;
   border-bottom: 1px solid #334155;
 }
-
-/* MENU */
 .menu-list {
   list-style: none;
   padding: 0;
   margin: 0;
   flex: 1;
 }
-
 .menu-item a {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 14px 20px;
-  color: #cbd5e1;
+      color: #fafcff;
   text-decoration: none;
 }
 
 .menu-item.active a,
 .menu-item a:hover {
-  background: #334155;
+      background: #2b3f5d;
   color: #fff;
 }
 
@@ -146,12 +138,35 @@ body {
 /* Dark Mode */
 body.dark {
   background: #121212;
-  color: #fff;
+    color: #03af71;
 }
-
+body.dark tbody td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e5e5e5;
+    vertical-align: middle;
+    color: black;
+}
+body.dark .menu-item.active a, .menu-item a:hover {
+    background: #373838;
+    color: #fff;
+}
+body.dark thead {
+    background: #047863;
+    color: white;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+body.dark button {
+    background: #047873;
+    color: white;
+    cursor: pointer;
+    border: none;
+    margin-right: 3px;
+}
 /* Sidebar */
 body.dark .sidebar {
-  background: #1e1e1e;
+  /* background: #1e1e1e; */
+      background: #049782;
 }
 table.dark {
     width: 100%;
@@ -161,19 +176,19 @@ table.dark {
 }
 /* Menu items */
 body.dark .menu-item a {
-  color: #ddd;
+      color: #ffffff;
 }
 body.dark .menu-item.active a {
   background: #333;
 }
 /* Top Navbar */
 body.dark .top-nav {
-  background: #1f1f1f;
+    background: #fffbfb;
 }
 /* Content */
 body.dark .content-body {
-  background: #181818;
-  color: #000;
+    background: #464645;
+color: #ffffff;
 }
 body.dark .content-body h2 {
   color: #fffcfc;
@@ -185,4 +200,61 @@ body.dark .content-body h2 {
   font-size: 20px;
   cursor: pointer;
   color: inherit;
+}
+
+
+/* Sidebar default */
+.sidebar {
+  width: 250px;
+  background: #043378;
+  color: white;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  transition: 0.3s;
+}
+
+/* Main area */
+.main-area {
+  margin-left: 250px;
+  transition: 0.3s;
+}
+
+/* Hamburger hidden in desktop */
+.hamburger {
+  display: none;
+  font-size: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* 🔥 MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+
+  .sidebar {
+    left: -100%; /* 👈 hide sidebar */
+  }
+
+  .sidebar.show {
+    left: 0; /* 👈 show sidebar */
+  }
+
+  .main-area {
+    margin-left: 0;
+  }
+
+
+    .hamburger {
+        background: #0c0147;
+        display: block;
+    }
+    .content-body {
+    padding: 2px;
+    overflow-y: auto;
+    flex: 1 1;
+    background: #f1f5f9;
+    width: 373px;
+}
 }

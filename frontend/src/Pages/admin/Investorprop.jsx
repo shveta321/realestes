@@ -14,7 +14,7 @@ const fetchInvestors = async () => {
   try {
     const token = localStorage.getItem("token"); // JWT token
 
-    const res = await fetch("http://synamc.com:5000/api/admin/investorss", {
+    const res = await fetch("https://synamc.com/api/admin/investorss", {
       method: "GET", // GET request
       headers: { 
         "Content-Type": "application/json",
@@ -29,7 +29,7 @@ const fetchInvestors = async () => {
 
     const data = await res.json();
     console.log("Investors fetched:", data);
-    setInvestors(data); // state me set karo
+    setInvestors(data); 
 
   } catch (err) {
     console.error("Error fetching investors:", err);
@@ -52,7 +52,7 @@ const fetchInvestors = async () => {
 
   const token = localStorage.getItem("token");
 
-  const res = await fetch(`http://synamc.com:5000/api/admin/investorss/${row.id}`, {
+  const res = await fetch(`https://synamc.com/api/admin/investorss/${row.id}`, {
     method: "DELETE",
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -69,16 +69,18 @@ const fetchInvestors = async () => {
   fetchInvestors();
 };
 
-  const columns = [
-    { label: "ID", field: "id" },
-    { label: "Name", field: "name" },
-    { label: "Email", field: "email" },
-    { label: "Phone", field: "phone" },
-    { label: "Requirement", field: "requirement" },
-    { label: "Ticket Size", field: "ticket_size" },
-    { label: "Created", field: "created_at" }
-  ];
-
+const columns = [
+  { label: "ID", field: "id" },
+  { label: "Name", field: "name" },
+  { label: "Email", field: "email" },
+  { label: "Phone", field: "phone" },
+  { label: "Property Type", field: "property_type" },
+  { label: "BHK", field: "bhk" },
+  { label: "Area", field: "area" },
+  { label: "Location", field: "location" },
+  { label: "Price", field: "price_range" },
+  { label: "Created", field: "created_at" }
+];
   const actions = [{ label: "Delete", onClick: handleDelete }];
 
   return (

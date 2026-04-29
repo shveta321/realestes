@@ -2,6 +2,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PublicWebsite from "./route/PublicWebsite";
 import Loging from "./components/Navbar/Loging";
 import Signup from "./components/Navbar/Signup";
+import Verifyotp from "./components/Navbar/Verifyotp";
+import ForgotPassword from "./components/Navbar/ForgotPassword";
+import ResetPassword from "./components/Navbar/ResetPassword";
+
 
 import ProtectedRoute from "./route/ProtectedRoute";
 import AdminLayout from "./route/AdminLayout";
@@ -11,6 +15,8 @@ import Users from "./Pages/admin/Users";
 import Investorprop from "./Pages/admin/Investorprop";
 import Inquiries from "./Pages/admin/Inquiries";
 import Admproperties from "./Pages/admin/Admproperties";
+import Advideoadviservices from "./Pages/admin/Advideoadviservices";
+import Admincontact from "./Pages/admin/Admincontact";
 
 
 import SellerLayout from "./route/SellerLayout";
@@ -20,6 +26,7 @@ import PropertyForm from "./Pages/seller/PropertyForm";
 import SellerDashboard from "./Pages/seller/SellerDashboard";
 
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -27,6 +34,9 @@ function App() {
         <Route path="/*" element={<PublicWebsite />} />
         <Route path="/loging" element={<Loging />} />
         <Route path="/Signup" element={<Signup />} />
+                <Route path="/Verifyotp" element={<Verifyotp />} />
+<Route path="/Forgot-password" element={<ForgotPassword />} />
+<Route path="/ResetPassword" element={<ResetPassword />} />
         <Route
           path="/admin/*"
           element={
@@ -41,8 +51,11 @@ function App() {
           <Route path="Investorprop" element={<Investorprop />} />
           <Route path="Inquiries" element={<Inquiries />} />
           <Route path="Admproperties" element={<Admproperties />} />
+          <Route path="Advideoadviservices" element={<Advideoadviservices />} />
+          <Route path="Admincontact" element={<Admincontact />} />
 
           
+
         </Route>
 
         <Route

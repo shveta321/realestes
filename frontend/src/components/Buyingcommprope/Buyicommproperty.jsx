@@ -1,168 +1,491 @@
+import React, { useState, useEffect } from "react";
+
 import "../Buyingcommprope/Buyicommproperty.css";
-import buycommer from "../image/buycommer.webp";
-import Comproperty2 from "../image/Comproperty1.webp";
+// import buycommer from "../image/buycommer.webp";
+// import Comproperty2 from "../image/Comproperty1.webp";
+import Buyerleadform from "./Buyerleadform";
+
 
 const Buyicommproperty = () => {
-  const properties = [
-    {
-      price: "₹45 Lac",
-      area: "891 sqft",
-      title: "3 Bedroom House in Sarangpur, Delhi",
-      bhk: "3 BHK",
-      status: "Ready To Move",
-      owner: "Owner",
-      image: buycommer,
-    },
-    {
-      price: "₹55 Lac",
-      area: "1020 sqft",
-      title: "Independent House in Delhi South West",
-      bhk: "3 BHK",
-      status: "Verified",
-      owner: "Owner",
-      image: Comproperty2,
-    },
-  ];
+  const [properties, setProperties] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedProperty, setSelectedProperty] = useState(null);
+  const [city, setCity] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage] = useState(4);
+
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+
+  const currentProperties = properties.slice(indexOfFirstRow, indexOfLastRow);
+
+  // Slider state for each property
+  const [currentSlide, setCurrentSlide] = useState({});
+  const [filters, setFilters] = useState({
+    property_type: "commercial",
+    property_subtype: "",
+    minPrice: "",
+    maxPrice: "",
+    city: "",
+    locality: "",
+    postedBy: "",
+    washrooms: "",
+
+    distressed: ""
+  });
+
+
+
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value) params.append(key, value);
+    });
+
+    if (params.toString()) {
+      fetch(`https://synamc.com/api/properties/filter?${params.toString()}`)
+        .then(res => res.json())
+        .then(data => setProperties(data))
+        .catch(err => console.log(err));
+    }
+
+  }, [filters]);
+
+  // const getMedia = item => item.media || [];
+
+  useEffect(() => {
+    fetch("https://synamc.com/api/properties?type=commercial")
+      .then(res => res.json())
+      .then(data => setProperties(data))
+      .catch(err => console.log(err));
+  }, []);
+
+  const formatPrice = (price) => {
+    if (!price) return "";
+    price = Number(price);
+
+    if (price >= 10000000) return (price / 10000000).toFixed(2) + " Cr";
+    if (price >= 100000) return (price / 100000).toFixed(2) + " Lakh";
+    return price.toLocaleString("en-IN");
+  };
+
+  const getMedia = (item) => {
+    if (!item.media) return [];
+    if (Array.isArray(item.media)) return item.media;
+    try {
+      return JSON.parse(item.media);
+    } catch {
+      return [];
+    }
+  };
+
+  const nextSlide = (id, length) => {
+    setCurrentSlide(prev => ({
+      ...prev,
+      [id]: prev[id] === undefined ? 1 : (prev[id] + 1) % length
+    }));
+  };
+
+  const prevSlide = (id, length) => {
+    setCurrentSlide(prev => ({
+      ...prev,
+      [id]: prev[id] === undefined ? length - 1 : (prev[id] - 1 + length) % length
+    }));
+  };
+  const clearAll = () => {
+    setFilters({
+      property_type: "",
+      property_subtype: "",
+      minPrice: "",
+      maxPrice: "",
+      city: "",
+      locality: "",
+      postedBy: "",
+      washrooms: "",
+      distressed: ""
+    });
+
+    setCity("");
+    setSuggestions([]);
+
+    // default properties load
+    fetch("https://synamc.com/api/properties?type=commercial")
+      .then(res => res.json())
+      .then(data => setProperties(data))
+      .catch(err => console.log(err));
+
+
+
+    // fetch("http://localhost:5000/api/properties")
+    //   .then(res => res.json())
+    //   .then(data => setProperties(data));
+  };
+
+  const defaultCity = "";
+  const defaultLocality = "";
+  const propertyCount = properties.length;
+
+  const locationText =
+    filters.locality
+      ? `${filters.locality} ${filters.city || defaultCity}`
+      : filters.city || `${defaultLocality} ${defaultCity}`;
+
+  const propertyTypeText =
+    filters.property_type === "residential"
+      ? "Residential Properties"
+      : "Commercial ";
+
 
   return (
-    <div className="listing-page">
-      <h2 className="page-title">
-        Property in Delhi South West for Sale
-      </h2>
-
-      <div className="listing-container">
-        <aside className="filters-panel">
-
-          {/* Header */}
-          <div className="filters-header">
-            <h4>Applied Filters</h4>
-            <button className="clear-link">Clear All</button>
-          </div>
-
-          {/* Chips (Applied) */}
-          <div className="chips-row">
-            <span className="chip active">Residential Land ✕</span>
-            <span className="chip active">Owner ✕</span>
-          </div>
-
-          <hr />
-
-          {/* Toggle */}
-          <div className="toggle-row">
-            <span>Hide already seen</span>
-            <label className="switch">
-              <input type="checkbox" />
-              <span className="slider"></span>
-            </label>
-          </div>
-
-          <hr />
-
-          {/* Budget */}
-          <div className="filter-block">
-            <div className="block-header">
-              <span>Budget</span>
+    <>
+      <div className="listing-page">
+        <div className="listing-container">
+          <aside className="filters-panel">
+            <div className="filters-header">
+              <h4> Filters</h4>
+              <button className="clear-link" onClick={clearAll}>
+                Clear All
+              </button>
             </div>
+            {/* Applied Filters Chips */}
+            <div className="chips-row">
 
-            <div className="dropdowns-row">
-              <select className="dropdowns">
-                <option>No min</option>
-                <option>₹20 Lakh</option>
-                <option>₹40 Lakh</option>
-              </select>
+              {Object.entries(filters).map(([key, value]) =>
+                value ? (
+                  <span
+                    key={key}
+                    className="chip active"
+                    onClick={() =>
+                      setFilters({ ...filters, [key]: "" })
+                    }
+                  >
+                    {value} ✕
+                  </span>
+                ) : null
+              )}
 
-              <select className="dropdowns">
-                <option>No max</option>
-                <option>₹50 Lakh</option>
-                <option>₹1 Crore</option>
-              </select>
+
             </div>
-          </div>
+            <hr />
+            {/* Budget */}
+            <div className="filter-block">
+              <h4>Budget</h4>
+              <div className="dropdowns-row">
+                {/* MIN PRICE */}
+                <select
+                  value={filters.minPrice}
+                  onChange={(e) =>
+                    setFilters({ ...filters, minPrice: e.target.value })
+                  }
+                >
+                  <option value="">  Min</option>
+                  <option value="500000">₹5 Lakh</option>
+                  <option value="1000000">₹10 Lakh</option>
+                  <option value="1500000">₹15 Lakh</option>
+                  <option value="2000000">₹20 Lakh</option>
+                  <option value="4000000">₹40 Lakh</option>
+                  <option value="6000000">₹60 Lakh</option>
+                </select>
 
-          <hr />
+                {/* MAX PRICE */}
+                <select
+                  value={filters.maxPrice}
+                  onChange={(e) =>
+                    setFilters({ ...filters, maxPrice: e.target.value })
+                  }
+                >
+                  <option value=""> Max</option>
+                  <option value="500000">₹5 Lakh</option>
+                  <option value="1000000">₹10 Lakh</option>
+                  <option value="1500000">₹15 Lakh</option>
+                  <option value="1700000">₹17 Lakh</option>
+                  <option value="5000000">₹50 Lakh</option>
+                  <option value="10000000">₹1 Crore</option>
+                  <option value="200000000">₹20 Crore</option>
+                  <option value="600000000">₹60 Crore</option>
+                </select>
+              </div>
 
-          {/* Type of property */}
-          <div className="filter-block">
-            <div className="block-header">
-              <span>Type of property</span>
-              <button className="clear-link">Clear</button>
             </div>
+            <hr />
+            {/* BHK */}
+            {/* <div className="filter-block">
+  <h4>BHK</h4>
+  <div className="chips-list">
+    {[1, 2, 3, 4, 5].map((num) => (
+      <span
+        key={num}
+        className={`chip ${filters.bhk === num ? "selected" : ""}`}
+        onClick={() =>
+          setFilters({ ...filters, bhk: num })
+        }
+      >
+        {num} BHK
+      </span>
+    ))}
+  </div>
+</div> */}
+            <hr />
+            {/* Property Type */}
+            <div className="filter-block">
+              <h4>Type of Property</h4>
+              <div className="chips-list">
 
-            <div className="chips-list">
-              <span className="chip">+ Independent/Builder Floor</span>
-              <span className="chip">+ Independent House/Villa</span>
-              <span className="chip">+ Residential Apartment</span>
-              <span className="chip selected">✔ Residential Land</span>
-              <span className="chip">+ Farm House</span>
-            </div>
-          </div>
-
-          <hr />
-
-          {/* Posted By */}
-          <div className="filter-block">
-            <div className="block-header">
-              <span>Posted By</span>
-              <button className="clear-link">Clear</button>
-            </div>
-
-            <div className="chips-list">
-              <span className="chip selected">✔ Owner</span>
-              <span className="chip">+ Builder</span>
-              <span className="chip">+ Dealer</span>
-              <span className="chip">+ Feature Dealer</span>
-            </div>
-          </div>
-
-          <hr />
-
-          {/* Localities */}
-          <div className="filter-block">
-            <div className="block-header">
-              <span>Localities</span>
-            </div>
-
-            <ul className="locality-list">
-              <li><input type="checkbox" /> Karol Bagh</li>
-              <li><input type="checkbox" /> New Rajendra Nagar</li>
-              <li><input type="checkbox" /> DaryaGanj</li>
-              <li><input type="checkbox" /> Prithviraj Road</li>
-              <li><input type="checkbox" /> Malcha Marg</li>
-              <li className="more">More Localities</li>
-            </ul>
-          </div>
-
-        </aside>
-
-
-
-        <main className="properties">
-          {properties.map((item, index) => (
-            <div className="property-card" key={index}>
-              <img src={item.image} alt={item.title} />
-
-              <div className="property-info">
-                <h3>{item.title}</h3>
-
-                <div className="tags">
-                  <span>{item.bhk}</span>
-                  <span>{item.status}</span>
-                </div>
-
-                <p className="price">{item.price}</p>
-                <p className="area">{item.area}</p>
-
-                <div className="actions">
-                  <button className="btn-outline">View Number</button>
-                  <button className="btn-primary">Contact</button>
-                </div>
+                {["residential", "commercial"].map(type => (
+                  <span
+                    key={type}
+                    className={`chip ${filters.property_type === type ? "selected" : "commercial"}`}
+                    onClick={() =>
+                      setFilters({ ...filters, property_type: type })
+                    }
+                  >
+                    {type}
+                  </span>
+                ))}
               </div>
             </div>
-          ))}
-        </main>
+<div className="filter-block">
+              <h4>Distressed</h4>
+              <div className="chips-list">
+
+                {["Distressed Property", "Fair Market Valued"].map((type) => (
+                  <span
+                    key={type}
+                    className={`chip ${filters.distressed === type ? "selected" : ""
+                      }`}
+                    onClick={() =>
+                      setFilters({
+                        ...filters,
+                        distressed: filters.distressed === type ? "" : type
+                      })
+                    }
+                  >
+                    {type}
+                  </span>
+                ))}
+
+              </div>
+            </div>
+            <hr />
+            {/* Posted By */}
+            <div className="filter-block">
+              <h4>Posted By</h4>
+              <div className="chips-list">
+                {["Owner", "Builder", "Dealer"].map((role) => (
+                  <span
+                    key={role}
+                    className={`chip ${filters.postedBy === role ? "selected" : ""
+                      }`}
+                    onClick={() =>
+                      setFilters({ ...filters, postedBy: role })
+                    }
+                  >
+                    {role}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <hr />
+
+            {/* Location Search */}
+            <div className="filter-block">
+              <h4>Location</h4>
+              <input
+                type="text"
+                placeholder="Enter Locality / Project / Society"
+                value={city}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setCity(value);
+
+                  if (value.length === 0) {
+                    setSuggestions([]);
+                    return;
+                  }
+
+                  fetch(`https://synamc.com/api/locations/suggest?q=${value}`)
+                    .then(res => res.json())
+                    .then(data => setSuggestions(data));
+                }}
+              />
+
+              {/*  Dropdown */}
+              {suggestions.length > 0 && (
+                <ul className="suggestion-box">
+                  {suggestions.map((item, i) => (
+                    <li
+                      key={i}
+                      onClick={() => {
+                        setCity(item);
+                        setSuggestions([]);
+                        setFilters({ ...filters, city: item });
+                      }}
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+          </aside>
+          <div>
+            <h2 className="page-title">
+              {propertyCount > 0 ? propertyCount : "No"} Results |  {propertyTypeText}property for sale {locationText}</h2>
+
+            {properties.length > 0 ? (
+              currentProperties.map(item => (
+                <div key={item.id} className="property-card">
+                  <div className="slider-container">
+                    {getMedia(item).length > 0 ? (
+                      <>
+                        {getMedia(item)[currentSlide[item.id] || 0].type === "image" ? (
+                          <img
+                            src={getMedia(item)[currentSlide[item.id] || 0].url}
+                            alt="property"
+                            className="slider-img"
+                          />
+                        ) : (
+                          <video
+                            src={getMedia(item)[currentSlide[item.id] || 0].url}
+                            controls
+                            className="slider-img"
+                          />
+                        )}
+
+                        {getMedia(item).length > 1 && (
+                          <>
+                            <button className="slider-btn prev" onClick={() => prevSlide(item.id, getMedia(item).length)}>❮</button>
+                            <button className="slider-btn next" onClick={() => nextSlide(item.id, getMedia(item).length)}>❯</button>
+                          </>
+                        )}
+                      </>
+                    ) : (
+                      <div>No Media</div>
+                    )}
+                  </div>
+
+
+                  <div className="property-info">
+                    <div className="property-loc">
+                      {/* <span>{item.location}</span> */}
+                      <span className="locat-pro">{item.city},</span>
+                      <span className="locat-pro">{item.locality},</span>
+                      <span className="locat-pro">{item.sub_locality},</span>
+                      {/* <span className="subtype">{item.subtype}</span> */}
+                      <span className="locat-pro">{item.society},</span>
+                      <span className="locat-pro">{item.house_no},</span>
+                      <span className="locat-pro">{item.pincode}</span>
+                    </div>
+                    <div className="property-loc">
+                      <span className="subtype">{item.property_type}, </span>
+                      <span className="subtype">{item.washrooms} washrooms</span>
+                      {/* <p>{item.bhk} BHK</p> */}
+
+                    </div>
+                    <div className="property-meta">
+                      <div>
+                        <span className="price">₹{formatPrice(item.expected_price || item.estimated_price)}</span>
+                        {/* <span>{item.price_per_sqft}</span> */}
+                      </div>
+                      <div>
+                        <span className="sqrll">{item.builtup_area}</span>
+                        <span className="sqrlling">{item.area_unit}</span>
+                      </div>
+                      {/* <div>
+  {item.super_builtup_area && item.area_unit ? (
+    <>
+      <span className="sqrll">{item.super_builtup_area}</span>
+      <span className="sqrlling">{item.area_unit}</span>
+    </>
+  ) : (
+    <span className="sqrll">N/A</span>
+  )}
+</div> */}
+                      <div>
+                        <span className="sqrll">{item.property_subtype}</span>
+
+
+                      </div>
+                    </div>
+                   <div className="property-distre">
+                      <div className="property-distre">
+                        {item.distressed && (
+                          <span className="tex-dest">{item.distressed}</span>
+                        )}                    </div>
+                      <div className="property-fur">
+                        <span>{item.furnishing}</span>
+                        <span>{item.amenities}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="property-loc">
+                      <span className="tex-dec">{item.description}</span>
+                    </div>
+
+                    <div className="info-footer">
+                      <button
+                        className="view-btn"
+                        onClick={() => {
+                          setSelectedProperty(item);
+                          setShowPopup(true);
+                        }}
+                      >
+                        Submit your particulars
+                      </button>
+                      {/* <button className="contact-btn">Contact</button> */}
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No properties found</p>
+            )}
+            <div style={{ marginTop: "20px", textAlign: "center" }}>
+              <button
+                onClick={() => setCurrentPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                style={{ marginRight: "10px" }}
+              >
+                Prev
+              </button>
+
+              <span>
+                Page {currentPage} of {Math.ceil(properties.length / rowsPerPage)}
+              </span>
+
+              <button
+                onClick={() =>
+                  setCurrentPage(
+                    currentPage < Math.ceil(properties.length / rowsPerPage)
+                      ? currentPage + 1
+                      : currentPage
+                  )
+                }
+                disabled={currentPage === Math.ceil(properties.length / rowsPerPage)}
+                style={{ marginLeft: "10px" }}
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+
+      {showPopup && (
+        <Buyerleadform
+          property={selectedProperty}
+          onClose={() => setShowPopup(false)}
+        />
+      )}
+    </>
   );
 };
+
 
 export default Buyicommproperty;

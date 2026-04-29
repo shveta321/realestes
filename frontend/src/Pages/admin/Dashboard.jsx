@@ -25,7 +25,7 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
-  const [stats, setStats] = useState(null); // ✅ ONLY ONE STATE
+  const [stats, setStats] = useState(null); //  ONLY ONE STATE
 
   useEffect(() => {
 const fetchStats = async () => {
@@ -37,7 +37,7 @@ const fetchStats = async () => {
   }
 
   const res = await fetch(
-    "http://synamc.com:5000/api/admin/dashboard-stats",
+    "https://synamc.com/api/admin/dashboard-stats",
     {
       headers: {
         Authorization: `Bearer ${token}`
@@ -69,7 +69,7 @@ const fetchStats = async () => {
   return (
     <div className="dashboard">
 
-      {/* 🔢 Cards */}
+      {/* Cards */}
       <div className="stats">
         <div className="card-dashbord">
           Total Inquiries<br />
@@ -85,7 +85,7 @@ const fetchStats = async () => {
      <div className="chartsel">
 
   <div className="chart-selbox">
-    {/* 🥧 Property Type */}
+    {/*  Property Type */}
     <Pie
       data={{
         labels: stats.propertyTypes.map(p => p.type),
@@ -99,7 +99,7 @@ const fetchStats = async () => {
   </div>
 
   <div className="chart-selbox">
-    {/* 📈 Monthly Growth */}
+    {/*  Monthly Growth */}
     <Line
       data={{
         labels: stats.monthlyLeads.map(m => `Month ${m.month}`),
@@ -114,7 +114,7 @@ const fetchStats = async () => {
   </div>
 
   <div className="chart-selbox">
-    {/* 📊 Top Sellers */}
+    {/*  Top Sellers */}
     <Bar
       data={{
         labels: stats.topSellers.map(s => s.name),
@@ -131,7 +131,7 @@ const fetchStats = async () => {
 </div>
 
 
-      {/* 📋 Table */}
+      {/*  Table */}
       <table className="table">
         <thead>
           <tr>

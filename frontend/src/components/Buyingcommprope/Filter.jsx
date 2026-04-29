@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Buyingcommprope/Buyicommproperty.css";
 
 const Filter = () => {
-  const [properties, setProperties] = useState([]);
+  // const [properties, setProperties] = useState([]);
   const [filters, setFilters] = useState({
     property_type: "",
     property_subtype: "",
@@ -14,7 +14,6 @@ const Filter = () => {
   });
 
 
-  /* Fetch properties when filters change */
   useEffect(() => {
     const params = new URLSearchParams();
 
@@ -28,14 +27,14 @@ const Filter = () => {
       .catch(err => console.log(err));
   }, [filters]);
 
-  /* 🔹 Indian Price Formatter */
+  /*  Indian Price Formatter */
   // const formatPrice = (price) => {
   //   if (price >= 10000000) return (price / 10000000).toFixed(2) + " Cr";
   //   if (price >= 100000) return (price / 100000).toFixed(2) + " Lakh";
   //   return price.toLocaleString("en-IN");
   // };
 
-  /* 🔹 Clear All */
+  /*  Clear All */
   const clearAll = () => {
     setFilters({
       property_type: "",

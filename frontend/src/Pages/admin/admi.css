@@ -9,7 +9,7 @@ table {
 }
 
 thead {
-  background: #2d3548;
+   background: #043378;
   color: white;
   text-transform: uppercase;
   font-size: 13px;
@@ -207,7 +207,39 @@ table.dark {
 .table tr:hover {
   background: #f1f5f9;
 }
+.table-container {
+  width: 100%;
+  overflow-x: auto;   /* 👉 horizontal scroll */
+}
 
+.custom-table {
+  width: 100%;
+  min-width: 1600px;  /* 👉 force width (important for scroll) */
+  border-collapse: collapse;
+}
+
+.custom-table th,
+.custom-table td {
+  white-space: nowrap;   /* 👉 text wrap na ho */
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+/* Header sticky (optional but pro look) */
+.custom-table {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 2;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .custom-table {
+    min-width: 1200px;
+  }
+}
 /* ================= RESPONSIVE ================= */
 
 /* Tablet */
@@ -259,5 +291,100 @@ table.dark {
   .card-dashbord,
   .card-sell {
     font-size: 15px;
+  }
+}
+tbody td
+ {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 10px 12px;
+    vertical-align: middle;
+    font-size: 14px;
+    color: #24282a;
+}
+/* adviseroy */
+
+.adv-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #eef2ff, #dbe4ff);
+}
+
+.adv-form {
+  width: 420px;
+  background: #fff;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.adv-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.adv-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.adv-group label {
+  font-size: 13px;
+  margin-bottom: 5px;
+  color: #555;
+  font-weight: 500;
+}
+
+.adv-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.adv-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+  outline: none;
+}
+.adv-textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  min-height: 90px;
+  resize: vertical;
+  font-size: 14px;
+}
+
+.adv-file {
+  border: none;
+  font-size: 13px;
+}
+.adv-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.adv-btn:hover {
+  background: linear-gradient(135deg, #0056b3, #003d80);
+  transform: translateY(-1px);
+}
+.adv-btn:active {
+  transform: scale(0.97);
+}
+/*  Responsive */
+@media (max-width: 480px) {
+  .adv-form {
+    width: 90%;
   }
 }

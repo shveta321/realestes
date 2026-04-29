@@ -1,5 +1,5 @@
 .footer {
-    background: linear-gradient(135deg, #0f2027, #1d1e34, #1f1f3c);
+background: linear-gradient(135deg, #033d66, #03087c, #07076e);
     color: #fff;
     padding: 60px 20px 20px;
     animation: fadeUp 1s ease-in;
@@ -113,4 +113,9 @@
   .footer-col ul li:hover {
     transform: none;
   }
+}
+
+a {
+    text-decoration-line: none;
+    color: white;
 }

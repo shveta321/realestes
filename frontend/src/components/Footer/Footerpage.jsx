@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState} from "react";
 import "./Footerpag.css";
+import { Link } from "react-router-dom";
+// import Freeuplod from "../Banner/Freeuplod";
 
 const Footerpage = () => {
+const [, setOpen] = useState(false);
+
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -19,10 +23,14 @@ const Footerpage = () => {
         <div className="footer-col">
           <h4>Quick Links</h4>
           <ul>
-            <li>Buy Property</li>
-            <li>Sell Property</li>
-            <li>Rent Property</li>
-            <li>Contact Us</li>
+                   <li>
+                    <Link to="/Investors" onClick={() => setOpen(false)}>
+                     Investors
+                    </Link>
+                  </li>
+            <li><Link to="/Freeuplod"> for Seller </Link></li>
+            {/* <li>Rent Property</li> */}
+          {/* <li><Link to="/Contact">Contact</Link></li> */}
           </ul>
         </div>
 
@@ -30,18 +38,28 @@ const Footerpage = () => {
         <div className="footer-col">
           <h4>Services</h4>
           <ul>
-            <li>Residential</li>
-            <li>Commercial</li>
-            <li>Plots / Land</li>
-            <li>Home Loan</li>
+          <li>
+        <Link to="/Residentialbuye" onClick={() => setOpen(false)}>
+          Residential
+        </Link>
+      </li>
+              <li>
+                    <Link to="/Buyicommproperty" onClick={() => setOpen(false)}>
+                      Commercial
+                    </Link>
+                  </li>
+            {/* <li>Plots / Land</li>
+            <li>Home Loan</li> */}
           </ul>
         </div>
 
         {/* Contact */}
         <div className="footer-col">
           <h4>Contact</h4>
-          <p>📧 support@realestate.com</p>
-          <p>📞 +91 98765 43210</p>
+          <p>📧 pravag3001@gmail.com</p>
+          <p>📞 +91 9720108105</p>
+                    {/* <li><Link to="/Contact">Contact</Link></li> */}
+
         </div>
       </div>
 
